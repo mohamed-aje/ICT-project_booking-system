@@ -4,10 +4,9 @@ package workingdirectory.mvc.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import workingdirectory.mvc.models.DeskReservation;
 import workingdirectory.mvc.repositories.DeskRepository;
 
@@ -20,19 +19,41 @@ public class TestRestController {
     @Autowired
     DeskRepository deskReservationService;
 
-    @GetMapping ("/my_test")
-    public String testController(@RequestParam String name) throws JsonProcessingException {
-        DeskReservation deskReservation = new DeskReservation(-1L, LocalDateTime.now(),1L,"MaInTest","qwerty");
-        deskReservationService.save(deskReservation);
-        return "Hello "+name;}
-
-    @GetMapping ("/getData")
-    public List<DeskReservation> getAllDeskReservation() throws JsonProcessingException {
-        List<DeskReservation> list=deskReservationService.findAll();
-
-        return list;
+    //create reservation
+    @PostMapping
+    public DeskReservation createReservation(@RequestBody DeskReservation reservation) {
+        return deskReservationService.save(reservation);
     }
 
+    //read all reservations
+    @GetMapping("/getall")
+    public List<DeskReservation> getAllReservation() throws JsonProcessingException {
+        return deskReservationService.findAll();
+    }
+
+    //update reservation
+    @PutMapping("{id}")
+    public ResponseEntity<DeskReservation> updateReservation(@PathVariable Long id, @RequestBody DeskReservation reservation) throws JsonProcessingException {
+        DeskReservation updatedReservation = deskReservationService.findById(id)
+                .orElseThrow();
+
+        updatedReservation.setDate(reservation.getDate());
+        updatedReservation.setDeskId(reservation.getDeskId());
+        updatedReservation.setFirstName(reservation.getFirstName());
+        updatedReservation.setLastName(reservation.getLastName());
+
+        deskReservationService.save(updatedReservation);
+
+        return ResponseEntity.ok(updatedReservation);
+    }
+
+    //delete reservation
+    @DeleteMapping("{id}")
+    public ResponseEntity<HttpStatus> deleteReservation(@PathVariable long id) {
+        deskReservationService.deleteById(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 
 }
