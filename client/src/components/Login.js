@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 
 const clientId =
   "570276307364-clhut1u9fu40j8edf60srs864d8icive.apps.googleusercontent.com";
@@ -7,8 +8,10 @@ const clientId =
 function Login() {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
+  const navigate = useNavigate();
   const onLoginSuccess = (res) => {
     console.log("Login Success:", res.profileObj);
+    navigate("/dashboard/overview");
     setShowloginButton(false);
     setShowlogoutButton(true);
   };
@@ -18,8 +21,9 @@ function Login() {
   };
 
   const onSignoutSuccess = () => {
-    alert("You have been logged out successfully");
+    //alert("You have been logged out successfully");
     console.clear();
+    navigate("/");
     setShowloginButton(true);
     setShowlogoutButton(false);
   };

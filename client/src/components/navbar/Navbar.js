@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import GoogleLogin from "react-google-login";
-import Login from "./Login";
+import Login from "../Login";
 import "./Navbar.css";
 class Navbar extends Component {
   responseGoogle = (response) => {
