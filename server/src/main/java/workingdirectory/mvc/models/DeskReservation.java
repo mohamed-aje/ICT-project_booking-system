@@ -37,12 +37,12 @@ public class DeskReservation {
     LocalDateTime updateTimeStamp;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "date_from")
     Date dateFrom;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "date_to")
     Date dateTo;
 
@@ -51,7 +51,7 @@ public class DeskReservation {
     //@Column(name = "desk_id")
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="deskId", nullable=false)
+    @JoinColumn(name="desk_Id", nullable=false)
     Desk desk;
 
     @Column(name = "first_name")

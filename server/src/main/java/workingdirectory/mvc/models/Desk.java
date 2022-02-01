@@ -18,8 +18,9 @@ public class Desk {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "desk_id")
     Long deskId;
-    @Column(name = "floar")
-    Integer floar;
+
+    @Column(name = "floor")
+    Integer floor;
 
     @OneToMany(mappedBy="desk")
     List<DeskReservation> reservations;

@@ -14,7 +14,7 @@ import workingdirectory.mvc.repositories.DeskReservationRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("rest")
+@RequestMapping("reservations")
 public class ReservationController {
     @Autowired
     DeskReservationRepository deskReservationService;
@@ -23,11 +23,12 @@ public class ReservationController {
 
     //create reservation
     @PostMapping("{id}")
-    public DeskReservation createReservation(@PathVariable Long id,@RequestBody DeskReservation reservation) {
+    public DeskReservation createReservation(@PathVariable Long id, @RequestBody DeskReservation reservation) {
         Desk desk = deskService.findById(id).orElseThrow();
         reservation.setDesk(desk);
         return deskReservationService.save(reservation);
     }
+
 
     //read all reservations
     @GetMapping("/getall")

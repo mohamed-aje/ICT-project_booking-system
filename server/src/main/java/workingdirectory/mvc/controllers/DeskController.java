@@ -16,13 +16,13 @@ public class DeskController {
     @Autowired
     DeskRepository deskService;
 
-    //create reservation
+    //create
     @PostMapping
     public Desk createDesk(@RequestBody Desk desk) {
         return deskService.save(desk);
     }
 
-    //read all reservations
+    //read
     @GetMapping("/getall")//information tables
     public List<Desk> getAllReservation() throws JsonProcessingException {
         return deskService.findAll();
