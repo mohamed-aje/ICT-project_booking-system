@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
 import { useNavigate, useParams } from "react-router-dom";
 
 const clientId =
   "570276307364-clhut1u9fu40j8edf60srs864d8icive.apps.googleusercontent.com";
 
-const Login = () => {
-  const [showloginButton, setShowloginButton] = useState(true);
-  const [showlogoutButton, setShowlogoutButton] = useState(false);
+const Login = ({ setUser }) => {
+  const myStorage = window.localStorage;
+  const [loggedIn, setLoggedIn] = useState(false);
+  //const [showlogoutButton, setShowlogoutButton] = useState(false);
   const navigate = useNavigate();
 
   const onLoginSuccess = (res) => {
     console.log("Login Success:", res.profileObj);
-    navigate(`/dashboard/overview/${res.profileObj.name}`);
-    setShowloginButton(false);
-    setShowlogoutButton(true);
+    let username = res.profileObj.name;
+    setUser(username);
+    navigate(`/dashboard/overview/${username}`);
+    setLoggedIn(true);
+    //myStorage.setItem("loggedIn", true);
   };
 
   const onLoginFailure = (res) => {
@@ -24,14 +27,17 @@ const Login = () => {
   const onSignoutSuccess = () => {
     //alert("You have been logged out successfully");
     console.clear();
+    setUser("");
     navigate("/");
-    setShowloginButton(true);
-    setShowlogoutButton(false);
+    setLoggedIn(false);
+    //myStorage.setItem("loggedIn", false);
   };
+
+  useEffect(() => {});
 
   return (
     <div>
-      {showloginButton ? (
+      {!loggedIn ? (
         <GoogleLogin
           clientId={clientId}
           buttonText="Log in With Google"
@@ -39,15 +45,13 @@ const Login = () => {
           onFailure={onLoginFailure}
           cookiePolicy={"single_host_origin"}
         />
-      ) : null}
-
-      {showlogoutButton ? (
+      ) : (
         <GoogleLogout
           clientId={clientId}
           buttonText="Log Out"
           onLogoutSuccess={onSignoutSuccess}
         ></GoogleLogout>
-      ) : null}
+      )}
     </div>
   );
 };

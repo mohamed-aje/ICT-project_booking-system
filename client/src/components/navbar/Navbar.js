@@ -7,6 +7,8 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const [user, setUser] = useState("");
+
   function responseGoogle(response) {
     console.log(response);
     console.log(response.profileObj);
@@ -40,7 +42,7 @@ const Navbar = () => {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Account
+                {!user ? "Account" : user}
               </a>
               <ul
                 className="dropdown-menu"
@@ -64,7 +66,7 @@ const Navbar = () => {
               </ul>
             </li>
             <li>
-              <Login />
+              <Login setUser={setUser} />
             </li>
           </ul>
         </div>
