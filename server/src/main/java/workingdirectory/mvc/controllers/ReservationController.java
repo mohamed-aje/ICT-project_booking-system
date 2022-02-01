@@ -2,26 +2,30 @@ package workingdirectory.mvc.controllers;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import workingdirectory.mvc.models.Desk;
 import workingdirectory.mvc.models.DeskReservation;
 import workingdirectory.mvc.repositories.DeskRepository;
+import workingdirectory.mvc.repositories.DeskReservationRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("rest")
-public class TestRestController {
+public class ReservationController {
     @Autowired
-    DeskRepository deskReservationService;
+    DeskReservationRepository deskReservationService;
+    @Autowired
+    DeskRepository deskService;
 
     //create reservation
-    @PostMapping
-    public DeskReservation createReservation(@RequestBody DeskReservation reservation) {
+    @PostMapping("{id}")
+    public DeskReservation createReservation(@PathVariable Long id,@RequestBody DeskReservation reservation) {
+        Desk desk = deskService.findById(id).orElseThrow();
+        reservation.setDesk(desk);
         return deskReservationService.save(reservation);
     }
 
@@ -37,8 +41,9 @@ public class TestRestController {
         DeskReservation updatedReservation = deskReservationService.findById(id)
                 .orElseThrow();
 
-        updatedReservation.setDate(reservation.getDate());
-        updatedReservation.setDeskId(reservation.getDeskId());
+        updatedReservation.setDateTo(reservation.getDateTo());
+        updatedReservation.setDateFrom(reservation.getDateFrom());
+        //updatedReservation.setDeskId(reservation.getDeskId());
         updatedReservation.setFirstName(reservation.getFirstName());
         updatedReservation.setLastName(reservation.getLastName());
 

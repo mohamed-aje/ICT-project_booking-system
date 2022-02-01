@@ -2,6 +2,7 @@ package workingdirectory.mvc.models;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -14,7 +15,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -37,13 +37,22 @@ public class DeskReservation {
     LocalDateTime updateTimeStamp;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "date")
-    Date date;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @Column(name = "date_from")
+    Date dateFrom;
 
     @NotNull
-    @Column(name = "desk_id")
-    String deskId;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @Column(name = "date_to")
+    Date dateTo;
+
+
+   // @NotNull
+    //@Column(name = "desk_id")
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="deskId", nullable=false)
+    Desk desk;
 
     @Column(name = "first_name")
     String firstName;
