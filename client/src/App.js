@@ -14,7 +14,7 @@ export class App extends Component {
             <Routes>
               <Route path="/" exact element={<LoginPage />}></Route>
               <Route
-                path="/dashboard/overview"
+                path="/dashboard/overview/:username"
                 element={<DashboardPage />}
               ></Route>
             </Routes>

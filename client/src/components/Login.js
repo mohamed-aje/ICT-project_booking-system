@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const clientId =
   "570276307364-clhut1u9fu40j8edf60srs864d8icive.apps.googleusercontent.com";
 
-function Login() {
+const Login = () => {
   const [showloginButton, setShowloginButton] = useState(true);
   const [showlogoutButton, setShowlogoutButton] = useState(false);
   const navigate = useNavigate();
+
   const onLoginSuccess = (res) => {
     console.log("Login Success:", res.profileObj);
-    navigate("/dashboard/overview");
+    navigate(`/dashboard/overview/${res.profileObj.name}`);
     setShowloginButton(false);
     setShowlogoutButton(true);
   };
@@ -32,7 +33,6 @@ function Login() {
     <div>
       {showloginButton ? (
         <GoogleLogin
-          className="google-button "
           clientId={clientId}
           buttonText="Log in With Google"
           onSuccess={onLoginSuccess}
@@ -43,7 +43,6 @@ function Login() {
 
       {showlogoutButton ? (
         <GoogleLogout
-          className="google-button "
           clientId={clientId}
           buttonText="Log Out"
           onLogoutSuccess={onSignoutSuccess}
@@ -51,5 +50,5 @@ function Login() {
       ) : null}
     </div>
   );
-}
+};
 export default Login;
