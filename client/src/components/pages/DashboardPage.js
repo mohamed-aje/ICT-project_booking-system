@@ -93,7 +93,7 @@ const DashboardPage = () => {
         <div
           className="col-6"
           style={{
-            backgroundColor: "green",
+            backgroundColor: "white",
             height: "40vh",
             display: "flex",
             alignItems: "center",
@@ -107,6 +107,7 @@ const DashboardPage = () => {
               flexDirection: "row",
             }}
           >
+            <h2>Floor </h2>
             <div
               className={selectedFloor === 1 ? "floorBtn selected" : "floorBtn"}
               onClick={() => setFloor(1)}
@@ -123,17 +124,26 @@ const DashboardPage = () => {
         </div>
         <div className="col-6" style={{ height: "40vh", display: "flex" }}>
           <Calendar onChange={onChange} value={selectedDate} />
-          <div style={{ marginLeft: "20px" }}>
+          <div
+            style={{
+              marginLeft: "20px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+            }}
+          >
             <p>Selected date: {selectedDate.toLocaleDateString()}</p>
             <p>Selected desk: {selectedDesk}</p>
-            <button
-              disabled={buttonDisabled || !selectedDesk}
-              type="button"
-              className="btn btn-primary"
-              onClick={() => saveReservation()}
-            >
-              Book desk
-            </button>
+            <div>
+              <button
+                disabled={buttonDisabled || !selectedDesk}
+                type="button"
+                className="btn btn-primary"
+                onClick={() => saveReservation()}
+              >
+                Book desk
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -142,6 +152,7 @@ const DashboardPage = () => {
         <div
           className="col-12"
           style={{
+            marginTop: "10px",
             backgroundColor: "gray",
             height: "50vh",
             display: "flex",

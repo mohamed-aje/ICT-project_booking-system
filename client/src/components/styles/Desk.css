@@ -1,5 +1,4 @@
-.desk:hover,
-.floorBtn:hover {
+.desk:hover {
   outline: 4px solid blue;
 }
 .desk.selected {
@@ -10,11 +9,16 @@
   background-color: red !important;
 }
 
+.floorBtn:hover {
+  background-color: grey !important;
+}
+
 .floorBtn {
   align-items: center;
   width: 40px;
   margin: 4px;
-  background-color: white;
+  color: white;
+  background-color: lightgrey;
   border-radius: 50%;
 }
 
@@ -28,4 +32,8 @@
   height: 50px;
   width: 80px;
   margin: 4px;
+}
+
+.react-calendar {
+  border: none !important;
 }
