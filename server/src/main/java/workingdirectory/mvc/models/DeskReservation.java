@@ -37,15 +37,9 @@ public class DeskReservation {
     LocalDateTime updateTimeStamp;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "date_from")
-    Date dateFrom;
-
-    @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
-    @Column(name = "date_to")
-    Date dateTo;
-
+    @JsonFormat(pattern="dd/mm/yyyy")
+    @Column(name = "date")
+    Date date;
 
    // @NotNull
     //@Column(name = "desk_id")

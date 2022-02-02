@@ -16,7 +16,7 @@ import java.util.List;
 public class Desk {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "desk_id")
+    @Column(name = "desk_Id")
     Long deskId;
 
     @Column(name = "floor")

@@ -3,6 +3,7 @@ package workingdirectory.mvc.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
 
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("reservations")
 public class ReservationController {
@@ -42,8 +43,7 @@ public class ReservationController {
         DeskReservation updatedReservation = deskReservationService.findById(id)
                 .orElseThrow();
 
-        updatedReservation.setDateTo(reservation.getDateTo());
-        updatedReservation.setDateFrom(reservation.getDateFrom());
+        updatedReservation.setDate(reservation.getDate());
         //updatedReservation.setDeskId(reservation.getDeskId());
         updatedReservation.setFirstName(reservation.getFirstName());
         updatedReservation.setLastName(reservation.getLastName());

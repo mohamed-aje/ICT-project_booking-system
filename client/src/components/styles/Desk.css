@@ -1,0 +1,32 @@
+.desk:hover,
+.floorBtn:hover {
+  outline: 4px solid blue;
+}
+
+.desk.selected {
+  background-color: blue !important;
+}
+
+.desk.occupied {
+  background-color: red !important;
+}
+
+.floorBtn {
+  align-items: center;
+  width: 40px;
+  margin: 4px;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.floorBtn.selected {
+  background-color: blue !important;
+  color: white;
+}
+
+.desk {
+  background-color: white;
+  height: 50px;
+  width: 80px;
+  margin: 4px;
+}

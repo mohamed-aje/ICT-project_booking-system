@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import GoogleLogin from "react-google-login";
 import Login from "../Login";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import "./Navbar.css";
 
 const Navbar = () => {
   const [user, setUser] = useState("");

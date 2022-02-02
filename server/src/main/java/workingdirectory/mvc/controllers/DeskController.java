@@ -9,7 +9,7 @@ import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
 
 import java.util.List;
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("desk")
 public class DeskController {
