@@ -2,7 +2,6 @@
 .floorBtn:hover {
   outline: 4px solid blue;
 }
-
 .desk.selected {
   background-color: blue !important;
 }

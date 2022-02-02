@@ -7,11 +7,13 @@ import "../styles/Desk.css";
 
 const DashboardPage = () => {
   const { username } = useParams();
+  const name = username.split(" ");
+  console.log(name);
   const [selectedDate, onChange] = useState(new Date());
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState([]);
   const [selectedDesk, setSelection] = useState();
-
+  const [buttonDisabled, setBtnDisabled] = useState();
   useEffect(() => {
     const getAllDesks = async () => {
       try {
@@ -24,6 +26,32 @@ const DashboardPage = () => {
     };
     getAllDesks();
   }, [selectedDate, selectedFloor]);
+
+  const saveReservation = async () => {
+    const firstName = name[0];
+    const lastName = name[1];
+    const date = selectedDate.toLocaleDateString();
+    const reservationData = { date, firstName, lastName };
+    try {
+      let response = await ReservationService.saveReservation(
+        selectedDesk,
+        reservationData
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changeSelection = (id, occupied) => {
+    if (occupied == "occupied") {
+      setSelection(<p style={{ color: "red" }}>Desk is occupied!</p>);
+      setBtnDisabled(true);
+    } else {
+      setSelection(id);
+      setBtnDisabled(false);
+    }
+  };
 
   const renderDesk = (desk) => {
     let reservationDates = [];
@@ -51,7 +79,7 @@ const DashboardPage = () => {
       return (
         <div
           key={desk.deskId}
-          onClick={() => setSelection(desk.deskId)}
+          onClick={() => changeSelection(desk.deskId, occupied)}
           className={style}
         ></div>
       );
@@ -96,8 +124,16 @@ const DashboardPage = () => {
         <div className="col-6" style={{ height: "40vh", display: "flex" }}>
           <Calendar onChange={onChange} value={selectedDate} />
           <div style={{ marginLeft: "20px" }}>
-            <p>Selected date:</p>
-            <p>{selectedDate.toLocaleDateString()}</p>
+            <p>Selected date: {selectedDate.toLocaleDateString()}</p>
+            <p>Selected desk: {selectedDesk}</p>
+            <button
+              disabled={buttonDisabled || !selectedDesk}
+              type="button"
+              className="btn btn-primary"
+              onClick={() => saveReservation()}
+            >
+              Book desk
+            </button>
           </div>
         </div>
       </div>
@@ -129,26 +165,6 @@ const DashboardPage = () => {
               //   selectedDate={selectedDate}
               // />
             )}
-            {/* <div
-              onClick={() => setSelection(2)}
-              className={selectedDesk === 2 ? "desk selected" : "desk"}
-              style={{
-                backgroundColor: "white",
-                height: "50px",
-                width: "80px",
-                margin: "4px",
-              }}
-            ></div>
-            <div
-              onClick={() => setSelection(3)}
-              className={selectedDesk === 3 ? "desk selected" : "desk"}
-              style={{
-                backgroundColor: "white",
-                height: "50px",
-                width: "80px",
-                margin: "4px",
-              }}
-            ></div> */}
           </div>
         </div>
       </div>
