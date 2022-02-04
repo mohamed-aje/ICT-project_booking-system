@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import ReservationService from "../services/ReservationService";
-import "../styles/Desk.css";
+import "../styles/DashBoard.css";
 
 const DashboardPage = () => {
   const { username } = useParams();
   const name = username.split(" ");
-  console.log(name);
   const [selectedDate, onChange] = useState(new Date());
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState([]);
   const [selectedDesk, setSelection] = useState();
   const [buttonDisabled, setBtnDisabled] = useState();
+
   useEffect(() => {
     const getAllDesks = async () => {
       try {
@@ -89,52 +89,100 @@ const DashboardPage = () => {
   };
   return (
     <div className="container">
-      <div className="row" style={{ marginTop: "20px", height: "40vh" }}>
+      <div className="row" style={{ marginTop: "20px", height: "20vh" }}>
         <div
-          className="col-6"
+          className="col-3"
           style={{
             backgroundColor: "white",
-            height: "40vh",
+            height: "100%",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            alignItems: "start",
+            justifyContent: "flex-start",
           }}
         >
           <div
             style={{
-              justifySelf: "center",
               display: "flex",
               flexDirection: "row",
             }}
           >
-            <h2>Floor </h2>
+            <h2>Floor</h2>
             <div
               className={selectedFloor === 1 ? "floorBtn selected" : "floorBtn"}
               onClick={() => setFloor(1)}
             >
-              <p style={{ textAlign: "center" }}>1</p>
+              <p
+                style={{
+                  textAlign: "center",
+                  marginBottom: "0px",
+                }}
+              >
+                1
+              </p>
             </div>
             <div
               className={selectedFloor === 2 ? "floorBtn selected" : "floorBtn"}
               onClick={() => setFloor(2)}
             >
-              <p style={{ textAlign: "center" }}>2</p>
+              <p
+                style={{
+                  textAlign: "center",
+                  marginBottom: "0px",
+                }}
+              >
+                2
+              </p>
             </div>
           </div>
         </div>
-        <div className="col-6" style={{ height: "40vh", display: "flex" }}>
-          <Calendar onChange={onChange} value={selectedDate} />
+        <div className="col-6" style={{ backgroundColor: "green" }}>
+          <p style={{ textAlign: "center", color: "white" }}>
+            Charts come here
+          </p>
+        </div>
+        <div
+          className="col-3"
+          style={{
+            height: "100%",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
           <div
             style={{
-              marginLeft: "20px",
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
+              flexDirection: "row",
             }}
           >
-            <p>Selected date: {selectedDate.toLocaleDateString()}</p>
-            <p>Selected desk: {selectedDesk}</p>
             <div>
+              <p textAlign>Selected date:</p>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => onChange(date)}
+              />
+            </div>
+            <div
+              style={{
+                marginLeft: "20px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignContent: "flex-end",
+              }}
+            >
+              <div>
+                <p>Selected desk: </p>
+                <div
+                  style={{
+                    backgroundColor: "blue",
+                    height: "30px",
+                  }}
+                >
+                  <p style={{ color: "white", textAlign: "center" }}>
+                    test{selectedDesk}
+                  </p>
+                </div>
+              </div>
               <button
                 disabled={buttonDisabled || !selectedDesk}
                 type="button"
@@ -154,7 +202,7 @@ const DashboardPage = () => {
           style={{
             marginTop: "10px",
             backgroundColor: "gray",
-            height: "50vh",
+            height: "60vh",
             display: "flex",
             alignItems: "center",
           }}

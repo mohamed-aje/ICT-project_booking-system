@@ -13,9 +13,9 @@ const Login = ({ setUser }) => {
 
   const onLoginSuccess = (res) => {
     console.log("Login Success:", res.profileObj);
-    let username = res.profileObj.name;
-    setUser(username);
-    navigate(`/dashboard/overview/${username}`);
+    let user = res.profileObj;
+    setUser(user);
+    navigate(`/dashboard/overview/${user.name}`);
     setLoggedIn(true);
     //myStorage.setItem("loggedIn", true);
   };
@@ -44,6 +44,7 @@ const Login = ({ setUser }) => {
           onSuccess={onLoginSuccess}
           onFailure={onLoginFailure}
           cookiePolicy={"single_host_origin"}
+          isSignedIn={true}
         />
       ) : (
         <GoogleLogout

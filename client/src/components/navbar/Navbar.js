@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Login from "../Login";
 
 const Navbar = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState();
+  //const [settingsURL, setSettingsURL] = useState();
 
-  function responseGoogle(response) {
-    console.log(response);
-    console.log(response.profileObj);
-  }
+  useEffect(() => {
+    // if (user) {
+    //   setSettingsURL(`/dashboard/overview/${user.name}`);
+    // }
+  }, []);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <a className="navbar-brand" href="#">
+        <a
+          className="navbar-brand"
+          href={user ? `/dashboard/overview/${user.name}` : null}
+        >
           Office desk booking system
         </a>
         <button
@@ -39,14 +44,17 @@ const Navbar = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    {user}
+                    {user.name}
                   </a>
                   <ul
                     className="dropdown-menu"
                     aria-labelledby="navbarDropdownMenuLink"
                   >
                     <li>
-                      <a className="dropdown-item" href="#">
+                      <a
+                        className="dropdown-item"
+                        href={user ? `/dashboard/overview/${user.name}` : null}
+                      >
                         Settings
                       </a>
                     </li>
