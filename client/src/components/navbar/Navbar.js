@@ -29,37 +29,41 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav me-auto"></ul>
           <ul className="navbar-nav">
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                id="navbarDropdownMenuLink"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                {!user ? "Account" : user}
-              </a>
-              <ul
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
+            {user ? (
+              <>
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle"
+                    id="navbarDropdownMenuLink"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {user}
                   </a>
+                  <ul
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Settings
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
                 </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
+              </>
+            ) : null}
             <li>
               <Login setUser={setUser} />
             </li>
