@@ -1,28 +1,39 @@
-import React, { useState, Component } from "react";
+import React, { useState, Component, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import DashboardPage from "./components/pages/DashboardPage";
 import LoginPage from "./components/pages/LoginPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import Navbar from "./components/navbar/Navbar";
+import { Login } from "./components/Login.js";
 
 const App = () => {
-  const [user, setUser] = useState();
-  console.log("hello from app.js: " + user);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    console.log("user found: " + user);
+  }, []);
+
   return (
     <>
       <Router>
-        <Navbar setUser={setUser} />
+        <Navbar sendUser={setUser} />
         <div>
           <Routes>
-            <Route path="/" exact element={<LoginPage />}></Route>
-            <Route
-              path="/dashboard/overview/:username"
-              element={<DashboardPage />}
-            ></Route>
-            <Route
-              path="/settings/:username"
-              element={<SettingsPage />}
-            ></Route>
+            {user ? (
+              <>
+                <Route
+                  exact
+                  path="/dashboard/:username/overview"
+                  element={<DashboardPage />}
+                ></Route>
+                <Route
+                  path="/dashboard/:username/settings"
+                  element={<SettingsPage />}
+                ></Route>
+              </>
+            ) : (
+              <Route path="/" exact element={<LoginPage />}></Route>
+            )}
           </Routes>
         </div>
       </Router>

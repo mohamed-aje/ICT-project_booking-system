@@ -23,6 +23,7 @@
   background-color: lightgrey;
   border-radius: 50%;
   display: flex;
+  cursor: pointer;
 }
 
 .floorBtn.selected {

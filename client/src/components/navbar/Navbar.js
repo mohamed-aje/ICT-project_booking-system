@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Login from "../Login";
 
-const Navbar = () => {
-  const [user, setUser] = useState();
+const Navbar = ({ sendUser }) => {
+  const [user, setUser] = useState(null);
   //const [settingsURL, setSettingsURL] = useState();
 
   useEffect(() => {
-    // if (user) {
-    //   setSettingsURL(`/dashboard/overview/${user.name}`);
-    // }
-  }, []);
+    sendUser(user);
+  }, [user]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -53,7 +51,7 @@ const Navbar = () => {
                     <li>
                       <a
                         className="dropdown-item"
-                        href={user ? `/dashboard/overview/${user.name}` : null}
+                        href={user ? `/dashboard/${user.name}/settings` : null}
                       >
                         Settings
                       </a>

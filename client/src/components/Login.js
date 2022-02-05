@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { GoogleLogin, GoogleLogout } from "react-google-login";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const clientId =
   "570276307364-clhut1u9fu40j8edf60srs864d8icive.apps.googleusercontent.com";
 
 const Login = ({ setUser }) => {
-  const myStorage = window.localStorage;
+  //const myStorage = window.localStorage;
   const [loggedIn, setLoggedIn] = useState(false);
   //const [showlogoutButton, setShowlogoutButton] = useState(false);
   const navigate = useNavigate();
@@ -15,7 +15,9 @@ const Login = ({ setUser }) => {
     console.log("Login Success:", res.profileObj);
     let user = res.profileObj;
     setUser(user);
-    navigate(`/dashboard/overview/${user.name}`);
+    if (window.location.pathname == "/") {
+      navigate(`/dashboard/${user.name}/overview`);
+    }
     setLoggedIn(true);
     //myStorage.setItem("loggedIn", true);
   };
@@ -32,8 +34,6 @@ const Login = ({ setUser }) => {
     setLoggedIn(false);
     //myStorage.setItem("loggedIn", false);
   };
-
-  useEffect(() => {});
 
   return (
     <div>
