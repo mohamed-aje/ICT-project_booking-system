@@ -14,7 +14,7 @@ const Navbar = ({ sendUser }) => {
       <div className="container-fluid">
         <a
           className="navbar-brand"
-          href={user ? `/dashboard/overview/${user.name}` : null}
+          href={user ? `/dashboard/${user.name}/overview/` : null}
         >
           Office desk booking system
         </a>
