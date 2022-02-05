@@ -3,16 +3,18 @@ package workingdirectory.mvc.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import workingdirectory.mvc.models.Desk;
 import workingdirectory.mvc.models.DeskReservation;
+import workingdirectory.mvc.models.User;
 import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
+import workingdirectory.mvc.repositories.UserRepository;
 
 import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("reservations")
@@ -21,12 +23,21 @@ public class ReservationController {
     DeskReservationRepository deskReservationService;
     @Autowired
     DeskRepository deskService;
+    @Autowired
+    UserRepository userService;
 
     //create reservation
     @PostMapping("{id}")
     public DeskReservation createReservation(@PathVariable Long id, @RequestBody DeskReservation reservation) {
-        Desk desk = deskService.findById(id).orElseThrow();
+        Desk desk = deskService.findById(id)
+                .orElseThrow();
         reservation.setDesk(desk);
+
+        User user = userService.findById(reservation.getEmail())
+                .orElseThrow();
+        user.setAccount(reservation.getEmail());
+        reservation.setUser(user);
+
         return deskReservationService.save(reservation);
     }
 
@@ -43,10 +54,14 @@ public class ReservationController {
         DeskReservation updatedReservation = deskReservationService.findById(id)
                 .orElseThrow();
 
+        User user = userService.findById(reservation.getEmail())
+                .orElseThrow();
+
+        user.setAccount(reservation.getEmail());
+
         updatedReservation.setDate(reservation.getDate());
         //updatedReservation.setDeskId(reservation.getDeskId());
-        updatedReservation.setFirstName(reservation.getFirstName());
-        updatedReservation.setLastName(reservation.getLastName());
+        updatedReservation.setUser(user);
 
         deskReservationService.save(updatedReservation);
 

@@ -41,18 +41,20 @@ public class DeskReservation {
     @Column(name = "date")
     Date date;
 
+    @Transient
+    String email;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name="account")
+    User user;
+
    // @NotNull
     //@Column(name = "desk_id")
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="desk_Id", nullable=false)
     Desk desk;
-
-    @Column(name = "first_name")
-    String firstName;
-
-    @Column(name = "last_name")
-    String lastName;
 
 
 }
