@@ -53,7 +53,7 @@ const Navbar = ({ sendUser }) => {
                         className="dropdown-item"
                         href={user ? `/dashboard/${user.name}/settings` : null}
                       >
-                        Settings
+                        Profile
                       </a>
                     </li>
                     <li>

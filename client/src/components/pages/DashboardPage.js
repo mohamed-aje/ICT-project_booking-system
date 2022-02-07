@@ -13,34 +13,23 @@ const DashboardPage = () => {
   const [desks, setDesks] = useState([]);
   const [selectedDesk, setSelection] = useState();
   const [buttonDisabled, setBtnDisabled] = useState();
+  const ExampleCustomInput = ({ value, onClick }) => (
+    <button type="button" className="btn btn-outline-primary" onClick={onClick}>
+      {value}
+    </button>
+  );
 
   useEffect(() => {
-    const getAllDesks = async () => {
-      try {
-        let response = await ReservationService.getAllDesks();
-        setDesks(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
+    const returnDesk = async () => {
+      const deskData = await ReservationService.getAllDesks();
+      setDesks(deskData);
+      console.log(deskData);
     };
-    getAllDesks();
+    returnDesk();
   }, [selectedDate, selectedFloor]);
 
   const saveReservation = async () => {
-    const firstName = name[0];
-    const lastName = name[1];
-    const date = selectedDate.toLocaleDateString();
-    const reservationData = { date, firstName, lastName };
-    try {
-      let response = await ReservationService.saveReservation(
-        selectedDesk,
-        reservationData
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    ReservationService.saveReservation(selectedDesk, name, selectedDate);
   };
 
   const changeSelection = (id, occupied) => {
@@ -89,7 +78,10 @@ const DashboardPage = () => {
   };
   return (
     <div className="container">
-      <div className="row" style={{ marginTop: "20px", height: "20vh" }}>
+      <div
+        className="row"
+        style={{ marginTop: "20px", marginBottom: "20px", height: "20vh" }}
+      >
         <div
           className="col-3"
           style={{
@@ -98,22 +90,24 @@ const DashboardPage = () => {
             display: "flex",
             alignItems: "start",
             justifyContent: "flex-start",
+            flexDirection: "column",
           }}
         >
           <div
             style={{
               display: "flex",
               flexDirection: "row",
+              marginBottom: "10px",
             }}
           >
-            <h2>Floor</h2>
+            <h2 style={{ marginRight: "5px" }}>Floor</h2>
             <div
               className={selectedFloor === 1 ? "floorBtn selected" : "floorBtn"}
               onClick={() => setFloor(1)}
             >
               <p
                 style={{
-                  textAlign: "center",
+                  textalign: "center",
                   marginBottom: "0px",
                 }}
               >
@@ -126,12 +120,47 @@ const DashboardPage = () => {
             >
               <p
                 style={{
-                  textAlign: "center",
+                  textalign: "center",
                   marginBottom: "0px",
                 }}
               >
                 2
               </p>
+            </div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  backgroundColor: "red",
+                  marginRight: "5px",
+                }}
+              ></div>
+              <p>Occupied</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  backgroundColor: "green",
+                  marginRight: "5px",
+                }}
+              ></div>
+              <p>Available</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <div
+                style={{
+                  height: "20px",
+                  width: "20px",
+                  backgroundColor: "blue",
+                  marginRight: "5px",
+                }}
+              ></div>
+              <p>Selected</p>
             </div>
           </div>
         </div>
@@ -152,45 +181,67 @@ const DashboardPage = () => {
             style={{
               display: "flex",
               flexDirection: "row",
+              width: "100%",
             }}
           >
-            <div>
-              <p textAlign>Selected date:</p>
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => onChange(date)}
-              />
+            <div
+              className="col-6"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-end",
+              }}
+            >
+              <b>Selected date:</b>
+              <div>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => onChange(date)}
+                  customInput={<ExampleCustomInput />}
+                />
+              </div>
             </div>
             <div
+              className="col-6"
               style={{
-                marginLeft: "20px",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
-                alignContent: "flex-end",
+                alignItems: "flex-end",
               }}
             >
               <div>
-                <p>Selected desk: </p>
+                <b>Selected desk: </b>
                 <div
                   style={{
                     backgroundColor: "blue",
-                    height: "30px",
+                    height: "40px",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    display: "flex",
                   }}
                 >
-                  <p style={{ color: "white", textAlign: "center" }}>
+                  <p
+                    style={{
+                      color: "white",
+                      marginBottom: "0px",
+                      fontSize: "18px",
+                    }}
+                  >
                     test{selectedDesk}
                   </p>
                 </div>
               </div>
-              <button
-                disabled={buttonDisabled || !selectedDesk}
-                type="button"
-                className="btn btn-primary"
-                onClick={() => saveReservation()}
-              >
-                Book desk
-              </button>
+              <div style={{ display: "flex", alignSelf: "flex-end" }}>
+                <button
+                  disabled={buttonDisabled || !selectedDesk}
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => saveReservation()}
+                >
+                  Book desk
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -207,6 +258,75 @@ const DashboardPage = () => {
             alignItems: "center",
           }}
         >
+          {/* <svg
+            id="Layer_1"
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 461 259"
+            style={{ position: "relative", height: "100%", width: "auto" }}
+          >
+            <defs></defs>
+
+            <rect className="cls-1" x="20" y="22" width="425" height="219" />
+            <rect className="cls-2" x="20" y="188" width="86" height="53" />
+            <rect className="cls-2" x="359" y="22" width="86" height="53" />
+            <rect
+              className="cls-2"
+              x="217"
+              y="221"
+              width="86"
+              height="53"
+              transform="translate(439.5 -195.5) rotate(90)"
+            />
+            <rect
+              className="cls-3"
+              x="312"
+              y="221"
+              width="86"
+              height="53"
+              transform="translate(534.5 -290.5) rotate(90)"
+  
+            />
+            <rect
+              className="cls-2"
+              x="125"
+              y="221"
+              width="86"
+              height="53"
+              transform="translate(342.5 -98.5) rotate(90)"
+            />
+            <rect
+              className="cls-2"
+              x="309"
+              y="353"
+              width="86"
+              height="53"
+              transform="translate(663.5 -155.5) rotate(90)"
+            />
+            <rect
+              className="cls-4"
+              x="212"
+              y="353"
+              width="86"
+              height="53"
+              transform="translate(566.5 -58.5) rotate(90)"
+            />
+            <rect
+              className="cls-2"
+              x="402"
+              y="353"
+              width="86"
+              height="53"
+              transform="translate(756.5 -248.5) rotate(90)"
+            />
+            <rect
+              id="_Slice_"
+              data-name="&lt;Slice&gt;"
+              className="cls-5"
+              width="461"
+              height="259"
+            />
+          </svg> */}
           <div
             style={{
               height: "58px",
@@ -217,11 +337,11 @@ const DashboardPage = () => {
           >
             {desks.map(
               (desk) => renderDesk(desk)
-              // <Desk
+              //  <Desk
               //   key={desk.deskId}
-              //   desk={desk}
-              //   selectedFloor={selectedFloor}
-              //   selectedDate={selectedDate}
+              //    desk={desk}
+              //    selectedFloor={selectedFloor}
+              //  selectedDate={selectedDate}
               // />
             )}
           </div>

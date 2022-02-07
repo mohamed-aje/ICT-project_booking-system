@@ -41,3 +41,35 @@
 .react-calendar {
   border: none !important;
 }
+
+.cls-1 {
+  fill: #9dd9e1;
+}
+
+.cls-1,
+.cls-2,
+.cls-3,
+.cls-4 {
+  stroke: #231f20;
+  stroke-miterlimit: 10;
+}
+
+.cls-2 {
+  fill: #fff;
+}
+
+.cls-3 {
+  fill: #ffca60;
+}
+
+.cls-3:hover {
+  fill: #231f20;
+}
+
+.cls-4 {
+  fill: #4253a4;
+}
+
+.cls-5 {
+  fill: none;
+}

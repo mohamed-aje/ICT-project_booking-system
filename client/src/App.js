@@ -4,14 +4,13 @@ import DashboardPage from "./components/pages/DashboardPage";
 import LoginPage from "./components/pages/LoginPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import Navbar from "./components/navbar/Navbar";
-import { Login } from "./components/Login.js";
 
 const App = () => {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     console.log("user found: " + user);
-  }, []);
+  }, []); */
 
   return (
     <>
