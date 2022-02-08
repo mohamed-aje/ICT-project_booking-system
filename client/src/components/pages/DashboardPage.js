@@ -5,14 +5,16 @@ import "react-datepicker/dist/react-datepicker.css";
 import ReservationService from "../services/ReservationService";
 import "../styles/DashBoard.css";
 
-const DashboardPage = () => {
-  const { username } = useParams();
-  const name = username.split(" ");
+const DashboardPage = (props) => {
+  const user = props.user;
+  const [occupiedDesks, setOccupiedDesks] = useState();
+  const [isOccupied, setOccupied] = useState(false);
   const [selectedDate, onChange] = useState(new Date());
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState([]);
-  const [selectedDesk, setSelection] = useState();
+  const [selectedDesk, setSelection] = useState(0);
   const [buttonDisabled, setBtnDisabled] = useState();
+
   const ExampleCustomInput = ({ value, onClick }) => (
     <button type="button" className="btn btn-outline-primary" onClick={onClick}>
       {value}
@@ -20,48 +22,65 @@ const DashboardPage = () => {
   );
 
   useEffect(() => {
+    console.log("got user from app.js: " + user);
     const returnDesk = async () => {
       const deskData = await ReservationService.getAllDesks();
       setDesks(deskData);
       console.log(deskData);
     };
     returnDesk();
+    getReservedDesks();
   }, [selectedDate, selectedFloor]);
 
   const saveReservation = async () => {
-    ReservationService.saveReservation(selectedDesk, name, selectedDate);
+    ReservationService.saveReservation(selectedDesk, selectedDate, user.email);
+  };
+
+  const getReservedDesks = () => {
+    let occupiedDeskIds = [];
+    let index = 0;
+    desks.map((desk) => {
+      let reservationDates = [];
+      let i = 0;
+      if (desk.reservations.length !== 0) {
+        desk.reservations.map((reservation) => {
+          reservationDates[i] = reservation.date;
+          i++;
+        });
+      }
+      if (reservationDates.includes(selectedDate.toLocaleDateString())) {
+        if (selectedDesk == desk.deskId) {
+          setOccupied(true);
+        }
+        occupiedDeskIds[index] = desk.deskId;
+        index++;
+      } else if (selectedDesk == desk.deskId) {
+        setOccupied(false);
+      }
+    });
+    setOccupiedDesks(occupiedDeskIds);
   };
 
   const changeSelection = (id, occupied) => {
+    setSelection(id);
     if (occupied == "occupied") {
-      setSelection(<p style={{ color: "red" }}>Desk is occupied!</p>);
+      setOccupied(true);
       setBtnDisabled(true);
     } else {
-      setSelection(id);
+      setOccupied(false);
       setBtnDisabled(false);
     }
   };
 
   const renderDesk = (desk) => {
-    let reservationDates = [];
-    let index = 0;
     if (selectedFloor === desk.floor) {
-      if (desk.reservations.length !== 0) {
-        desk.reservations.map((reservation) => {
-          //console.log(desk.deskId, reservation.date);
-          reservationDates[index] = reservation.date;
-          index++;
-        });
-      }
-
       let selected = "";
       if (desk.deskId === selectedDesk) {
         selected = "selected";
       }
       let occupied = "";
-      if (reservationDates.includes(selectedDate.toLocaleDateString())) {
+      if (occupiedDesks.includes(desk.deskId)) {
         occupied = "occupied";
-        console.log("occupied");
       }
       let style = selected + " " + occupied + " desk";
 
@@ -174,7 +193,6 @@ const DashboardPage = () => {
           style={{
             height: "100%",
             display: "flex",
-            justifyContent: "flex-end",
           }}
         >
           <div
@@ -182,24 +200,53 @@ const DashboardPage = () => {
               display: "flex",
               flexDirection: "row",
               width: "100%",
+              justifyContent: "flex-end",
             }}
           >
             <div
-              className="col-6"
               style={{
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "flex-end",
               }}
+              className="col-6"
             >
-              <b>Selected date:</b>
-              <div>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={(date) => onChange(date)}
-                  customInput={<ExampleCustomInput />}
-                />
-              </div>
+              <b>Selected desk: </b>
+              {selectedDesk !== 0 ? (
+                <>
+                  <div
+                    style={{
+                      backgroundColor: "blue",
+                      height: "38px",
+                      width: "100px",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      display: "flex",
+                    }}
+                  >
+                    <p
+                      style={{
+                        color: "white",
+                        marginBottom: "0px",
+                        fontSize: "18px",
+                      }}
+                    >
+                      {selectedDesk}
+                    </p>
+                  </div>
+                  {isOccupied ? (
+                    <p style={{ color: "red" }}>
+                      <b>Occupied</b>
+                    </p>
+                  ) : (
+                    <p style={{ color: "green" }}>
+                      <b>Available</b>
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p style={{ fontSize: "13px" }}>No desk selected</p>
+              )}
             </div>
             <div
               className="col-6"
@@ -210,31 +257,25 @@ const DashboardPage = () => {
                 alignItems: "flex-end",
               }}
             >
-              <div>
-                <b>Selected desk: </b>
-                <div
-                  style={{
-                    backgroundColor: "blue",
-                    height: "40px",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  <p
-                    style={{
-                      color: "white",
-                      marginBottom: "0px",
-                      fontSize: "18px",
-                    }}
-                  >
-                    test{selectedDesk}
-                  </p>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <b>Selected date:</b>
+                <div>
+                  <DatePicker
+                    selected={selectedDate}
+                    onChange={(date) => onChange(date)}
+                    customInput={<ExampleCustomInput />}
+                  />
                 </div>
               </div>
               <div style={{ display: "flex", alignSelf: "flex-end" }}>
                 <button
-                  disabled={buttonDisabled || !selectedDesk}
+                  disabled={isOccupied || !selectedDesk}
                   type="button"
                   className="btn btn-primary"
                   onClick={() => saveReservation()}

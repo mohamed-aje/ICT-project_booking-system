@@ -54,6 +54,7 @@ public class ReservationController {
         DeskReservation updatedReservation = deskReservationService.findById(id)
                 .orElseThrow();
 
+        System.out.println(reservation.getEmail());
         User user = userService.findById(reservation.getEmail())
                 .orElseThrow();
 

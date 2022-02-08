@@ -6,11 +6,7 @@ import SettingsPage from "./components/pages/SettingsPage";
 import Navbar from "./components/navbar/Navbar";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-
-  /*   useEffect(() => {
-    console.log("user found: " + user);
-  }, []); */
+  const [user, setUser] = useState();
 
   return (
     <>
@@ -22,12 +18,13 @@ const App = () => {
               <>
                 <Route
                   exact
-                  path="/dashboard/:username/overview"
-                  element={<DashboardPage />}
+                  path="/dashboard/overview"
+                  element={<DashboardPage user={user} />}
                 ></Route>
                 <Route
-                  path="/dashboard/:username/settings"
-                  element={<SettingsPage />}
+                  exact
+                  path="/dashboard/profile"
+                  element={<SettingsPage user={user} />}
                 ></Route>
               </>
             ) : (

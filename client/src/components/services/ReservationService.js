@@ -13,11 +13,13 @@ class ReservationService {
     return response.data;
   };
 
-  saveReservation = async (id, name, selectedDate) => {
-    const firstName = name[0];
-    const lastName = name[1];
+  saveReservation = async (id, selectedDate, email) => {
+    // const firstName = name[0];
+    // const lastName = name[1];
     const date = selectedDate.toLocaleDateString();
-    const reservationData = { date, firstName, lastName };
+    console.log(email);
+    // const reservationData = { date, firstName, lastName };
+    const reservationData = { date, email };
     let response;
     try {
       response = await axios.post(

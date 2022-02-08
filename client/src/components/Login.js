@@ -16,7 +16,7 @@ const Login = ({ setUser }) => {
     let user = res.profileObj;
     setUser(user);
     if (window.location.pathname == "/") {
-      navigate(`/dashboard/${user.name}/overview`);
+      navigate("/dashboard/overview");
     }
     setLoggedIn(true);
     //myStorage.setItem("loggedIn", true);

@@ -3,19 +3,18 @@ import Login from "../Login";
 
 const Navbar = ({ sendUser }) => {
   const [user, setUser] = useState(null);
-  //const [settingsURL, setSettingsURL] = useState();
 
   useEffect(() => {
-    sendUser(user);
+    if (user) {
+      console.log(user.email);
+      sendUser(user);
+    }
   }, [user]);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-        <a
-          className="navbar-brand"
-          href={user ? `/dashboard/${user.name}/overview/` : null}
-        >
+        <a className="navbar-brand" href={user ? "/dashboard/overview/" : null}>
           Office desk booking system
         </a>
         <button
@@ -51,19 +50,14 @@ const Navbar = ({ sendUser }) => {
                     <li>
                       <a
                         className="dropdown-item"
-                        href={user ? `/dashboard/${user.name}/settings` : null}
+                        href={user ? "/dashboard/profile" : null}
                       >
                         Profile
                       </a>
                     </li>
                     <li>
                       <a className="dropdown-item" href="#">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Something else here
+                        Logout
                       </a>
                     </li>
                   </ul>
