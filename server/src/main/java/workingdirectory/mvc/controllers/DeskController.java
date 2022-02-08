@@ -28,6 +28,11 @@ public class DeskController {
         return deskService.findAll();
     }
 
+    @GetMapping("{id}")
+    public Desk getDesk(@PathVariable long id) throws JsonProcessingException {
+        Desk desk = deskService.findById(id).orElseThrow();
+        return desk;
+    }
 
 
 

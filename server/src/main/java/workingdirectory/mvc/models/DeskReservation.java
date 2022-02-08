@@ -46,7 +46,7 @@ public class DeskReservation {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="account")
+    @JoinColumn(name="account", nullable=false)
     User user;
 
    // @NotNull
