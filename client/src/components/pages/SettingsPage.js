@@ -12,9 +12,12 @@ const Settings = (props) => {
   useEffect(() => {
     const returnUser = async () => {
       setUserData(await UserService.getUser(user.email));
-      userData ? setLoading(false) : setLoading(true);
     };
-    returnUser();
+    if (!userData) {
+      returnUser();
+    }
+    userData ? setLoading(false) : setLoading(true);
+    console.log(isLoading);
   }, [userData]);
 
   return (
