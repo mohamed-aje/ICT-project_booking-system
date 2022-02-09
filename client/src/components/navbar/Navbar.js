@@ -12,10 +12,22 @@ const Navbar = ({ sendUser }) => {
   }, [user]);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#02305a" }}
+    >
       <div className="container-fluid">
-        <a className="navbar-brand" href={user ? "/dashboard/overview/" : null}>
-          Office desk booking system
+        <a
+          style={{ height: "60px" }}
+          className="navbar-brand"
+          href={user ? "/dashboard/overview/" : null}
+        >
+          <div style={{ height: "70px" }}>
+            <img
+              style={{ maxHeight: "100%" }}
+              src={require("./ORK_logo.JPG")}
+            />
+          </div>
         </a>
         <button
           className="navbar-toggler"
