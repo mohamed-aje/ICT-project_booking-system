@@ -6,8 +6,9 @@ const Settings = (props) => {
   const user = props.user;
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [anonymReservation, setReservation] = useState();
+  const [anonymReservation, setReservation] = useState(false);
   const [selectedDesk, setSelection] = useState();
+  const [isSaveBtnVisible, setBtnVisible] = useState(false);
 
   useEffect(() => {
     const returnUser = async () => {
@@ -20,6 +21,18 @@ const Settings = (props) => {
     console.log(isLoading);
   }, [userData]);
 
+  const changeState = () => {
+    if (!anonymReservation) {
+      setReservation(true);
+    } else {
+      setReservation(false);
+    }
+    setBtnVisible(true);
+  };
+
+  const saveSetting = () => {
+    setBtnVisible(false);
+  };
   return (
     <>
       {!isLoading ? (
@@ -52,7 +65,7 @@ const Settings = (props) => {
                     <input
                       className="form-check-input"
                       type="checkbox"
-                      value={anonymReservation}
+                      onChange={changeState}
                       id="defaultCheck1"
                     />
                     <label className="form-check-label" for="defaultCheck1">
@@ -61,6 +74,18 @@ const Settings = (props) => {
                   </div>
                 </div>
               </div>
+              {isSaveBtnVisible ? (
+                <div style={{ marginTop: "20px" }}>
+                  <button
+                    disabled={!isSaveBtnVisible}
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => saveSetting()}
+                  >
+                    Save setting
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
