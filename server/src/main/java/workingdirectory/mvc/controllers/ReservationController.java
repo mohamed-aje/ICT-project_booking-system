@@ -54,15 +54,16 @@ public class ReservationController {
         DeskReservation updatedReservation = deskReservationService.findById(id)
                 .orElseThrow();
 
-        System.out.println(reservation.getEmail());
-        User user = userService.findById(reservation.getEmail())
-                .orElseThrow();
+        //System.out.println(reservation.getEmail());
+        //User user = userService.findById(reservation.getEmail())
+        //        .orElseThrow();
 
-        user.setAccount(reservation.getEmail());
+        //user.setAccount(reservation.getEmail());
+        Desk desk = deskService.findById(id).orElseThrow();
 
         updatedReservation.setDate(reservation.getDate());
-        //updatedReservation.setDeskId(reservation.getDeskId());
-        updatedReservation.setUser(user);
+        updatedReservation.setDesk(desk);
+        //updatedReservation.setUser(user);
 
         deskReservationService.save(updatedReservation);
 

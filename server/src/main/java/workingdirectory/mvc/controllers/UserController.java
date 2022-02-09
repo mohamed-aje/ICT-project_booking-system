@@ -3,6 +3,7 @@ package workingdirectory.mvc.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import workingdirectory.mvc.models.User;
 import workingdirectory.mvc.repositories.UserRepository;
@@ -25,5 +26,15 @@ public class UserController {
     public User getUser(@PathVariable String account){
         User user = userService.findById(account).orElseThrow();
         return user;
+    }
+
+    @PutMapping("{account}")
+    public ResponseEntity<User> updateReservation(@PathVariable String account, boolean anonym) throws JsonProcessingException {
+        User updatedUser = userService.findById(account).orElseThrow();
+        updatedUser.setAnonymReservations(anonym);
+
+        userService.save(updatedUser);
+
+        return ResponseEntity.ok(updatedUser);
     }
 }
