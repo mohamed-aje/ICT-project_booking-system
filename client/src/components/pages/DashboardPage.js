@@ -13,7 +13,7 @@ const DashboardPage = (props) => {
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState(null);
   const [selectedDesk, setSelection] = useState(0);
-  const [buttonDisabled, setBtnDisabled] = useState();
+  //  const [buttonDisabled, setBtnDisabled] = useState();
   const [isLoading, setLoading] = useState(true);
 
   const ExampleCustomInput = ({ value, onClick }) => (
@@ -68,10 +68,10 @@ const DashboardPage = (props) => {
     setSelection(id);
     if (occupied == "occupied") {
       setOccupied(true);
-      setBtnDisabled(true);
+      //setBtnDisabled(true);
     } else {
       setOccupied(false);
-      setBtnDisabled(false);
+      //setBtnDisabled(false);
     }
   };
 

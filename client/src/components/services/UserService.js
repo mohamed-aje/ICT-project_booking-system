@@ -16,10 +16,9 @@ class UserService {
   saveAnonymitySetting = async (email, isAnonym) => {
     let response;
     try {
-      response = await axios.put(
-        RESERVATIONS_REST_API_URL + "/user/" + email,
-        isAnonym
-      );
+      response = await axios.put(RESERVATIONS_REST_API_URL + "/user/" + email, {
+        anonymReservations: isAnonym,
+      });
     } catch (error) {
       console.log(error);
     }

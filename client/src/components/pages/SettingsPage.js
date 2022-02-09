@@ -17,7 +17,12 @@ const Settings = (props) => {
     if (!userData) {
       returnUser();
     }
-    userData ? setLoading(false) : setLoading(true);
+    if (userData) {
+      setLoading(false);
+      setReservation(userData.anonymReservations);
+    } else {
+      setLoading(true);
+    }
     console.log(isLoading);
   }, [userData]);
 
@@ -31,6 +36,11 @@ const Settings = (props) => {
   };
 
   const saveSetting = () => {
+    console.log(anonymReservation);
+    const saveAnonimityChange = async () => {
+      await UserService.saveAnonymitySetting(user.email, anonymReservation);
+    };
+    saveAnonimityChange();
     setBtnVisible(false);
   };
   return (
@@ -67,6 +77,7 @@ const Settings = (props) => {
                       type="checkbox"
                       onChange={changeState}
                       id="defaultCheck1"
+                      checked={anonymReservation}
                     />
                     <label className="form-check-label" for="defaultCheck1">
                       I want my reservations to be anonym

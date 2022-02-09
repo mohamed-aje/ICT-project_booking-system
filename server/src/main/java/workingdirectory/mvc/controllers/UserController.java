@@ -9,6 +9,7 @@ import workingdirectory.mvc.models.User;
 import workingdirectory.mvc.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @RestController
@@ -29,12 +30,13 @@ public class UserController {
     }
 
     @PutMapping("{account}")
-    public ResponseEntity<User> updateReservation(@PathVariable String account, boolean anonym) throws JsonProcessingException {
+    public ResponseEntity<User> updateReservation(@PathVariable String account, @RequestBody User user) throws JsonProcessingException {
         User updatedUser = userService.findById(account).orElseThrow();
-        updatedUser.setAnonymReservations(anonym);
-
+        updatedUser.setAnonymReservations(user.isAnonymReservations());
         userService.save(updatedUser);
 
         return ResponseEntity.ok(updatedUser);
     }
+
+
 }
