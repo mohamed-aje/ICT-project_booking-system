@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReservationService from "../services/ReservationService";
 import "../styles/DashBoard.css";
+import FloorFiveLayout from "../FloorFiveLayout";
 
 const DashboardPage = (props) => {
   const user = props.user;
@@ -13,6 +14,7 @@ const DashboardPage = (props) => {
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState(null);
   const [selectedDesk, setSelection] = useState(0);
+  const [desksOnFloorCount, setCount] = useState(0);
   //  const [buttonDisabled, setBtnDisabled] = useState();
   const [isLoading, setLoading] = useState(true);
 
@@ -33,10 +35,15 @@ const DashboardPage = (props) => {
       setLoading(false);
       getReservedDesks();
     }
-  }, [selectedDate, selectedFloor, desks]);
+  }, [selectedDate, selectedFloor, desks, selectedDesk]);
 
   const saveReservation = async () => {
-    ReservationService.saveReservation(selectedDesk, selectedDate, user.email);
+    await ReservationService.saveReservation(
+      selectedDesk,
+      selectedDate,
+      user.email
+    );
+    setSelection(0);
   };
 
   const getReservedDesks = () => {
@@ -45,61 +52,65 @@ const DashboardPage = (props) => {
     desks.map((desk) => {
       let reservationDates = [];
       let i = 0;
-      if (desk.reservations.length !== 0) {
-        desk.reservations.map((reservation) => {
-          reservationDates[i] = reservation.date;
-          i++;
-        });
-      }
-      if (reservationDates.includes(selectedDate.toLocaleDateString())) {
-        if (selectedDesk == desk.deskId) {
-          setOccupied(true);
+      if (selectedFloor === desk.floor) {
+        setCount(desksOnFloorCount + 1);
+        if (desk.reservations.length !== 0) {
+          desk.reservations.map((reservation) => {
+            reservationDates[i] = reservation.date;
+            i++;
+          });
         }
-        occupiedDeskIds[index] = desk.deskId;
-        index++;
-      } else if (selectedDesk == desk.deskId) {
-        setOccupied(false);
+        if (reservationDates.includes(selectedDate.toLocaleDateString())) {
+          if (selectedDesk == desk.deskId) {
+            setOccupied(true);
+          }
+          occupiedDeskIds[index] = desk.deskId;
+          index++;
+        } else if (selectedDesk == desk.deskId) {
+          setOccupied(false);
+        }
       }
     });
+    console.log(occupiedDeskIds);
     setOccupiedDesks(occupiedDeskIds);
   };
 
-  const changeSelection = (id, occupied) => {
-    setSelection(id);
-    if (occupied == "occupied") {
-      setOccupied(true);
-      //setBtnDisabled(true);
-    } else {
-      setOccupied(false);
-      //setBtnDisabled(false);
-    }
-  };
+  // const changeSelection = (id) => {
+  //   setSelection(id);
+  //   if (occupied == "occupied") {
+  //     setOccupied(true);
+  //     //setBtnDisabled(true);
+  //   } else {
+  //     setOccupied(false);
+  //     //setBtnDisabled(false);
+  //   }
+  // };
 
-  const renderDesk = (desk) => {
-    if (selectedFloor === desk.floor) {
-      let selected = "";
-      if (desk.deskId === selectedDesk) {
-        selected = "selected";
-      }
-      let occupied = "";
-      if (occupiedDesks.includes(desk.deskId)) {
-        occupied = "occupied";
-      } else {
-        occupied = "free";
-      }
-      let style = selected + " " + occupied + " desk";
+  // const renderDesk = (desk) => {
+  //   if (selectedFloor === desk.floor) {
+  //     let selected = "";
+  //     if (desk.deskId === selectedDesk) {
+  //       selected = "selected";
+  //     }
+  //     let occupied = "";
+  //     if (occupiedDesks.includes(desk.deskId)) {
+  //       occupied = "occupied";
+  //     } else {
+  //       occupied = "free";
+  //     }
+  //     let style = selected + " " + occupied + " desk";
 
-      return (
-        <div
-          key={desk.deskId}
-          onClick={() => changeSelection(desk.deskId, occupied)}
-          className={style}
-        ></div>
-      );
-    } else {
-      return null;
-    }
-  };
+  //     return (
+  //       <div
+  //         key={desk.deskId}
+  //         onClick={() => changeSelection(desk.deskId, occupied)}
+  //         className={style}
+  //       ></div>
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // };
   return (
     <>
       {!isLoading ? (
@@ -304,12 +315,16 @@ const DashboardPage = (props) => {
               className="col-12"
               style={{
                 marginTop: "10px",
-                backgroundColor: "gray",
+
                 height: "60vh",
                 display: "flex",
                 alignItems: "center",
               }}
             >
+              <FloorFiveLayout
+                occupiedDesks={occupiedDesks}
+                setSelectedDeskID={setSelection}
+              />
               {/* <svg
             id="Layer_1"
             data-name="Layer 1"
@@ -379,7 +394,7 @@ const DashboardPage = (props) => {
               height="259"
             />
           </svg> */}
-              <div
+              {/* <div
                 style={{
                   height: "58px",
                   width: "100%",
@@ -396,7 +411,7 @@ const DashboardPage = (props) => {
                   //  selectedDate={selectedDate}
                   // />
                 )}
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
