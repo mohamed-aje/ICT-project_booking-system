@@ -35,7 +35,6 @@ const DashboardPage = (props) => {
       setLoading(false);
       getReservedDesks();
     }
-    console.log("hi");
   }, [selectedDate, selectedFloor, selectedDesk]);
 
   const saveReservation = async () => {
