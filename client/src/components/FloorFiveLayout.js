@@ -7,18 +7,68 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
   const desksOnFloorCount = props.desksOnFloorCount;
   let occupiedDesks = [];
   occupiedDesks = props.occupiedDesks;
+  const desk_map = [
+    { id: 1, d: "M8.57 5.66H27.9v38.33H8.57z" },
+    { id: 2, d: "M73.23 5.66h19.33v38.33H73.23z" },
+    { id: 3, d: "M93.23 5.66h19.33v38.33H93.23z" },
+    { id: 4, d: "M123.9 75.33h19.33v38.33H123.9z" },
+    { id: 5, d: "M73.23 75.33h19.33v38.33H73.23z" },
+    { id: 6, d: "M8.57 75.33H27.9v38.33H8.57z" },
+    { id: 7, d: "M183.9 5.66h19.33v38.33H183.9z" },
+    { id: 8, d: "M245.23 5.66h19.33v38.33h-19.33z" },
+    { id: 9, d: "M265.23 5.66h19.33v38.33h-19.33z" },
+    { id: 10, d: "M325.23 5.66h19.33v38.33h-19.33z" },
+    { id: 11, d: "M355.57 5.66h19.33v38.33h-19.33z" },
+    { id: 12, d: "M418.23 5.66h19.33v38.33h-19.33z" },
+    { id: 13, d: "M438.23 5.66h19.33v38.33h-19.33z" },
+    { id: 14, d: "M500.73 5.66h19.33v38.33h-19.33z" },
+    {
+      id: 15,
+      d: "M558.22 138.03h19.33v38.33h-19.33z",
+      transform: "rotate(90 567.79 90.1)",
+    },
+    {
+      id: 16,
+      d: "M342.35 363.28h19.33v38.33h-19.33z",
+      transform: "rotate(-90 284.92 382.54)",
+    },
+    {
+      id: 17,
+      d: "M377.1 334.82h19.33v38.33H377.1z",
+      transform: "rotate(18.49 559.007 114.157)",
+    },
+    {
+      id: 18,
+      d: "M399.26 342.65h19.33v38.33h-19.33z",
+      transform: "rotate(18.49 581.183 121.962)",
+    },
+    {
+      id: 19,
+      d: "M456.35 363.28h19.33v38.33h-19.33z",
+      transform: "rotate(-90 398.92 382.54)",
+    },
+    {
+      id: 20,
+      d: "M491.6 351.03h19.33v38.33H491.6z",
+      transform: "rotate(180 467.665 336.695)",
+    },
+    {
+      id: 21,
+      d: "M567.76 351.03h19.33v38.33h-19.33z",
+      transform: "rotate(180 543.83 336.695)",
+    },
+  ];
 
   useEffect(() => {
     console.log(desksOnFloorCount);
-    console.log(occupiedDesks);
+    console.log(typeof occupiedDesks[0]);
     let styles = [];
-    for (let i = 1; i < desksOnFloorCount + 1; i++) {
-      console.log(i);
-      if (occupiedDesks.includes[i]) {
-        console.log("occupied");
-        styles[i - 1] = "occupied";
+    console.log(occupiedDesks);
+    for (let i = 0; i < desksOnFloorCount; i++) {
+      if (occupiedDesks.includes(i + 1)) {
+        styles[i] = "occupied";
       } else {
-        styles[i - 1] = "free";
+        styles[i] = "free";
       }
     }
     setStyles(styles);
@@ -36,7 +86,23 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1045.23 343.54"
     >
-      <path
+      {desk_map.map((item) => {
+        return (
+          <path
+            key={item["id"]}
+            onClick={selectDesk}
+            id={item["id"]}
+            className={
+              selectedDesk == item["id"] && !occupiedDesks.includes(item["id"])
+                ? "selected"
+                : style[item["id"] - 1]
+            }
+            d={item["d"]}
+            transform={"transform" in item ? item["transform"] : null}
+          />
+        );
+      })}
+      {/* <path
         onClick={selectDesk}
         id="1"
         className={
@@ -52,7 +118,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         className={
           selectedDesk == 2 && !occupiedDesks.includes(2)
             ? "selected"
-            : style[0]
+            : style[1]
         }
         d="M73.23 5.66h19.33v38.33H73.23z"
       />
@@ -160,7 +226,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="13"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 13 && !occupiedDesks.includes(13)
             ? "selected"
             : style[0]
         }
@@ -170,7 +236,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="14"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 14 && !occupiedDesks.includes(14)
             ? "selected"
             : style[0]
         }
@@ -180,7 +246,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="15"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 15 && !occupiedDesks.includes(2)
             ? "selected"
             : style[0]
         }
@@ -191,7 +257,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="16"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 16 && !occupiedDesks.includes(16)
             ? "selected"
             : style[0]
         }
@@ -202,7 +268,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="17"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 17 && !occupiedDesks.includes(17)
             ? "selected"
             : style[0]
         }
@@ -213,7 +279,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="18"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 18 && !occupiedDesks.includes(18)
             ? "selected"
             : style[0]
         }
@@ -224,7 +290,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="19"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 19 && !occupiedDesks.includes(19)
             ? "selected"
             : style[0]
         }
@@ -235,7 +301,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="20"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 20 && !occupiedDesks.includes(20)
             ? "selected"
             : style[0]
         }
@@ -246,13 +312,13 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
         onClick={selectDesk}
         id="21"
         className={
-          selectedDesk == 2 && !occupiedDesks.includes(2)
+          selectedDesk == 21 && !occupiedDesks.includes(21)
             ? "selected"
             : style[0]
         }
         transform="rotate(180 543.83 336.695)"
         d="M567.76 351.03h19.33v38.33h-19.33z"
-      />
+      /> */}
       <path
         className="cls-2"
         d="M930.16 309.93h9.33v-9.24H930c.09 3.16-.1 6.15.16 9.24ZM930.17 104.44c3.19 0 6.25.15 9.31 0v-9.27h-9.31ZM901.38 293.73v1.88c4.44.56 37.65.41 38.23-.2a4.76 4.76 0 0 0 .06-.87 3.86 3.86 0 0 0-.28-.81ZM832.09 295.63l2.11.45v13.85h2.41v-14.11h42.95v-2.13h-47.47ZM665.39 167.06H592.1v-29.49h-4.85v29.58H469v2.36h8.12v8.1h2.31v-8h52.67V199h-55.04c.07.89.12 1.55.2 2.46h55.08v9.44h4.5v-7h50.36v42.2H537l-.15-4.57h-4.47v27c1.07 0 2.09.13 3.1.13H666c.92 0 1.84-.09 2.7-.14v-22.11l-76.4-.35v-42l76.85.08v-2.77h28.46s-.09-1.68-.13-2.58h-49.93l.21-29.13h47.44v8.13c1-.07 2.55 0 2.55 0v-8.3h16.46v-2.36h-48.82Zm-129.12 31.62-.14-27.68 51.12-.07v27.82Zm51 65.9-51 .31-.12-13.68h51.12ZM665.05 251v13.9h-72.74c0-.48-.11-.87-.12-1.25V251.1c24.31-.1 48.47-.03 72.86-.1Zm-21.54-52.6-51.25.15v-27.7l51.25-.23ZM462.66 307.64V293.7c-4-.5-94-.34-95.83.16 0 .57.08 1.17.14 2h93.3v7.19c0 2.3-.12 4.58.09 6.79h7c-.06-.8-.1-1.4-.17-2.23Z"

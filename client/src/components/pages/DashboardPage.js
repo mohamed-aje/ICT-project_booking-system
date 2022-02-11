@@ -28,6 +28,7 @@ const DashboardPage = (props) => {
     const returnDesk = async () => {
       setDesks(await ReservationService.getAllDesks());
     };
+
     if (!desks) {
       returnDesk();
       setLoading(true);
@@ -35,7 +36,7 @@ const DashboardPage = (props) => {
       setLoading(false);
       getReservedDesks();
     }
-  }, [selectedDate, selectedFloor, selectedDesk]);
+  }, [selectedDate, selectedFloor, desks, selectedDesk]);
 
   const saveReservation = async () => {
     await ReservationService.saveReservation(
