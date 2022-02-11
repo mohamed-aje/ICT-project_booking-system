@@ -42,11 +42,19 @@
   margin: 4px;
 }
 
-.cls-1 {
+.occupied {
+  fill: #ff5f8f;
+}
+
+.selected {
+  fill: blue;
+}
+
+.free {
   fill: #56ff4f;
 }
 
-.cls-1:hover {
+.free:hover {
   stroke-width: 2;
   stroke: blue;
 }

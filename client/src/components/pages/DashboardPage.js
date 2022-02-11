@@ -35,7 +35,8 @@ const DashboardPage = (props) => {
       setLoading(false);
       getReservedDesks();
     }
-  }, [selectedDate, selectedFloor, desks, selectedDesk]);
+    console.log("hi");
+  }, [selectedDate, selectedFloor, selectedDesk]);
 
   const saveReservation = async () => {
     await ReservationService.saveReservation(
@@ -46,6 +47,7 @@ const DashboardPage = (props) => {
     setSelection(0);
   };
 
+  let count = 0;
   const getReservedDesks = () => {
     let occupiedDeskIds = [];
     let index = 0;
@@ -53,7 +55,8 @@ const DashboardPage = (props) => {
       let reservationDates = [];
       let i = 0;
       if (selectedFloor === desk.floor) {
-        setCount(desksOnFloorCount + 1);
+        count++;
+        console.log(desksOnFloorCount);
         if (desk.reservations.length !== 0) {
           desk.reservations.map((reservation) => {
             reservationDates[i] = reservation.date;
@@ -73,6 +76,7 @@ const DashboardPage = (props) => {
     });
     console.log(occupiedDeskIds);
     setOccupiedDesks(occupiedDeskIds);
+    setCount(count);
   };
 
   // const changeSelection = (id) => {
@@ -324,6 +328,7 @@ const DashboardPage = (props) => {
               <FloorFiveLayout
                 occupiedDesks={occupiedDesks}
                 setSelectedDeskID={setSelection}
+                desksOnFloorCount={desksOnFloorCount}
               />
               {/* <svg
             id="Layer_1"

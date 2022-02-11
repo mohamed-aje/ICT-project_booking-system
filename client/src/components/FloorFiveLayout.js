@@ -2,18 +2,31 @@ import React, { useEffect, useState } from "react";
 import "./styles/DashBoard.css";
 
 const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
+  const [style, setStyles] = useState([]);
+  const [selectedDesk, setDesk] = useState();
+  const desksOnFloorCount = props.desksOnFloorCount;
   let occupiedDesks = [];
   occupiedDesks = props.occupiedDesks;
-  const [styles, setStyles] = useState();
 
   useEffect(() => {
-    changeStylesForDesks();
+    console.log(desksOnFloorCount);
+    console.log(occupiedDesks);
+    let styles = [];
+    for (let i = 1; i < desksOnFloorCount + 1; i++) {
+      console.log(i);
+      if (occupiedDesks.includes[i]) {
+        console.log("occupied");
+        styles[i - 1] = "occupied";
+      } else {
+        styles[i - 1] = "free";
+      }
+    }
+    setStyles(styles);
+    console.log(styles);
   }, [occupiedDesks]);
 
-  const changeStylesForDesks = () => {
-    let styles = [];
-  };
   const selectDesk = (e) => {
+    setDesk(e.target.attributes.id.value);
     setSelectedDeskID(e.target.attributes.id.value);
   };
   return (
@@ -26,133 +39,217 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
       <path
         onClick={selectDesk}
         id="1"
-        className="cls-1"
+        className={
+          selectedDesk == 1 && !occupiedDesks.includes(1)
+            ? "selected"
+            : style[0]
+        }
         d="M8.57 5.66H27.9v38.33H8.57z"
       />
       <path
         onClick={selectDesk}
         id="2"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         d="M73.23 5.66h19.33v38.33H73.23z"
       />
       <path
         onClick={selectDesk}
         id="3"
-        className="cls-1"
+        className={
+          selectedDesk == 3 && !occupiedDesks.includes(3)
+            ? "selected"
+            : style[0]
+        }
         d="M93.23 5.66h19.33v38.33H93.23z"
       />
       <path
         onClick={selectDesk}
         id="4"
-        className="cls-1"
+        className={
+          selectedDesk == 4 && !occupiedDesks.includes(4)
+            ? "selected"
+            : style[0]
+        }
         d="M123.9 75.33h19.33v38.33H123.9z"
       />
       <path
         onClick={selectDesk}
         id="5"
-        className="cls-1"
+        className={
+          selectedDesk == 5 && !occupiedDesks.includes(5)
+            ? "selected"
+            : style[0]
+        }
         d="M73.23 75.33h19.33v38.33H73.23z"
       />
       <path
         onClick={selectDesk}
         id="6"
-        className="cls-1"
+        className={
+          selectedDesk == 6 && !occupiedDesks.includes(6)
+            ? "selected"
+            : style[0]
+        }
         d="M8.57 75.33H27.9v38.33H8.57z"
       />
       <path
         onClick={selectDesk}
         id="7"
-        className="cls-1"
+        className={
+          selectedDesk == 7 && !occupiedDesks.includes(7)
+            ? "selected"
+            : style[0]
+        }
         d="M183.9 5.66h19.33v38.33H183.9z"
       />
       <path
         onClick={selectDesk}
         id="8"
-        className="cls-1"
+        className={
+          selectedDesk == 8 && !occupiedDesks.includes(8)
+            ? "selected"
+            : style[0]
+        }
         d="M245.23 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="9"
-        className="cls-1"
+        className={
+          selectedDesk == 9 && !occupiedDesks.includes(9)
+            ? "selected"
+            : style[0]
+        }
         d="M265.23 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="10"
-        className="cls-1"
+        className={
+          selectedDesk == 10 && !occupiedDesks.includes(10)
+            ? "selected"
+            : style[0]
+        }
         d="M325.23 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="11"
-        className="cls-1"
+        className={
+          selectedDesk == 11 && !occupiedDesks.includes(11)
+            ? "selected"
+            : style[0]
+        }
         d="M355.57 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="12"
-        className="cls-1"
+        className={
+          selectedDesk == 12 && !occupiedDesks.includes(12)
+            ? "selected"
+            : style[0]
+        }
         d="M418.23 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="13"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         d="M438.23 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="14"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         d="M500.73 5.66h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="15"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(90 567.79 90.1)"
         d="M558.22 138.03h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="16"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(-90 284.92 382.54)"
         d="M342.35 363.28h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="17"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(18.49 559.007 114.157)"
         d="M377.1 334.82h19.33v38.33H377.1z"
       />
       <path
         onClick={selectDesk}
         id="18"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(18.49 581.183 121.962)"
         d="M399.26 342.65h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="19"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(-90 398.92 382.54)"
         d="M456.35 363.28h19.33v38.33h-19.33z"
       />
       <path
         onClick={selectDesk}
         id="20"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(180 467.665 336.695)"
         d="M491.6 351.03h19.33v38.33H491.6z"
       />
       <path
         onClick={selectDesk}
         id="21"
-        className="cls-1"
+        className={
+          selectedDesk == 2 && !occupiedDesks.includes(2)
+            ? "selected"
+            : style[0]
+        }
         transform="rotate(180 543.83 336.695)"
         d="M567.76 351.03h19.33v38.33h-19.33z"
       />
