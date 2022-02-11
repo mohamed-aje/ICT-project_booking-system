@@ -24,11 +24,11 @@ const DashboardPage = (props) => {
     </button>
   );
 
-  useEffect(() => {
-    const returnDesk = async () => {
-      setDesks(await ReservationService.getAllDesks());
-    };
+  const returnDesk = async () => {
+    setDesks(await ReservationService.getAllDesks());
+  };
 
+  useEffect(() => {
     if (!desks) {
       returnDesk();
       setLoading(true);
@@ -44,6 +44,7 @@ const DashboardPage = (props) => {
       selectedDate,
       user.email
     );
+    returnDesk();
     setSelection(0);
   };
 
@@ -325,98 +326,15 @@ const DashboardPage = (props) => {
                 alignItems: "center",
               }}
             >
-              <FloorFiveLayout
-                occupiedDesks={occupiedDesks}
-                setSelectedDeskID={setSelection}
-                desksOnFloorCount={desksOnFloorCount}
-              />
-              {/* <svg
-            id="Layer_1"
-            data-name="Layer 1"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 461 259"
-            style={{ position: "relative", height: "100%", width: "auto" }}
-          >
-            <defs></defs>
-
-            <rect className="cls-1" x="20" y="22" width="425" height="219" />
-            <rect className="cls-2" x="20" y="188" width="86" height="53" />
-            <rect className="cls-2" x="359" y="22" width="86" height="53" />
-            <rect
-              className="cls-2"
-              x="217"
-              y="221"
-              width="86"
-              height="53"
-              transform="translate(439.5 -195.5) rotate(90)"
-            />
-            <rect
-              className="cls-3"
-              x="312"
-              y="221"
-              width="86"
-              height="53"
-              transform="translate(534.5 -290.5) rotate(90)"
-  
-            />
-            <rect
-              className="cls-2"
-              x="125"
-              y="221"
-              width="86"
-              height="53"
-              transform="translate(342.5 -98.5) rotate(90)"
-            />
-            <rect
-              className="cls-2"
-              x="309"
-              y="353"
-              width="86"
-              height="53"
-              transform="translate(663.5 -155.5) rotate(90)"
-            />
-            <rect
-              className="cls-4"
-              x="212"
-              y="353"
-              width="86"
-              height="53"
-              transform="translate(566.5 -58.5) rotate(90)"
-            />
-            <rect
-              className="cls-2"
-              x="402"
-              y="353"
-              width="86"
-              height="53"
-              transform="translate(756.5 -248.5) rotate(90)"
-            />
-            <rect
-              id="_Slice_"
-              data-name="&lt;Slice&gt;"
-              className="cls-5"
-              width="461"
-              height="259"
-            />
-          </svg> */}
-              {/* <div
-                style={{
-                  height: "58px",
-                  width: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {desks.map(
-                  (desk) => renderDesk(desk)
-                  //  <Desk
-                  //   key={desk.deskId}
-                  //    desk={desk}
-                  //    selectedFloor={selectedFloor}
-                  //  selectedDate={selectedDate}
-                  // />
-                )}
-              </div> */}
+              {selectedFloor == 1 ? (
+                <FloorFiveLayout
+                  occupiedDesks={occupiedDesks}
+                  setSelectedDeskID={setSelection}
+                  desksOnFloorCount={desksOnFloorCount}
+                />
+              ) : (
+                <></>
+              )}
             </div>
           </div>
         </div>
