@@ -162,7 +162,7 @@ const DashboardPage = (props) => {
                   marginBottom: "10px",
                 }}
               >
-                <h2 style={{ marginRight: "5px" }}>Floor</h2>
+                <h2 style={{ marginRight: "5px", color: "#02305a" }}>Floor</h2>
                 <div
                   className={
                     selectedFloor === 1 ? "floorBtn selected" : "floorBtn"
@@ -200,7 +200,7 @@ const DashboardPage = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      backgroundColor: "red",
+                      backgroundColor: "#ff5f8f",
                       marginRight: "5px",
                     }}
                   ></div>
@@ -211,7 +211,7 @@ const DashboardPage = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      backgroundColor: "green",
+                      backgroundColor: "#56ff4f",
                       marginRight: "5px",
                     }}
                   ></div>
@@ -222,7 +222,7 @@ const DashboardPage = (props) => {
                     style={{
                       height: "20px",
                       width: "20px",
-                      backgroundColor: "blue",
+                      backgroundColor: "#02305a",
                       marginRight: "5px",
                     }}
                   ></div>
@@ -258,12 +258,12 @@ const DashboardPage = (props) => {
                   }}
                   className="col-6"
                 >
-                  <b>Selected desk: </b>
+                  <b style={{ color: "#02305a" }}>Selected desk: </b>
                   {selectedDesk !== 0 ? (
                     <>
                       <div
                         style={{
-                          backgroundColor: "blue",
+                          backgroundColor: "#02305a",
                           height: "38px",
                           width: "100px",
                           alignItems: "center",
@@ -282,11 +282,11 @@ const DashboardPage = (props) => {
                         </p>
                       </div>
                       {isOccupied ? (
-                        <p style={{ color: "red" }}>
+                        <p style={{ color: "#ff5f8f" }}>
                           <b>Occupied</b>
                         </p>
                       ) : (
-                        <p style={{ color: "green" }}>
+                        <p style={{ color: "#56ff4f" }}>
                           <b>Available</b>
                         </p>
                       )}
@@ -311,7 +311,7 @@ const DashboardPage = (props) => {
                       alignItems: "flex-end",
                     }}
                   >
-                    <b>Selected date:</b>
+                    <b style={{ color: "#02305a" }}>Selected date:</b>
                     <div>
                       <DatePicker
                         selected={selectedDate}

@@ -1,20 +1,5 @@
-.desk:hover {
-  outline: 4px solid blue;
-}
-.desk.selected {
-  background-color: blue !important;
-}
-
-.desk.occupied {
-  background-color: red !important;
-}
-
-.desk.free {
-  background-color: green;
-}
-
 .floorBtn:hover {
-  background-color: grey !important;
+  background-color: rgb(0, 162, 255) !important;
 }
 
 .floorBtn {
@@ -24,14 +9,14 @@
   height: 40px;
   margin: 4px;
   color: white;
-  background-color: lightgrey;
+  background-color: lightgray;
   border-radius: 50%;
   display: flex;
   cursor: pointer;
 }
 
 .floorBtn.selected {
-  background-color: blue !important;
+  background-color: #02305a !important;
   color: white;
 }
 
@@ -47,7 +32,7 @@
 }
 
 .selected {
-  fill: blue;
+  fill: #02305a;
 }
 
 .free {
@@ -56,7 +41,7 @@
 
 .free:hover {
   stroke-width: 2;
-  stroke: blue;
+  stroke: #02305a;
 }
 
 .cls-2 {
