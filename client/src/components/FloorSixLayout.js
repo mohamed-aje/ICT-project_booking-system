@@ -2,78 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./styles/DashBoard.css";
 
 const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
-  const [style, setStyles] = useState([]);
-  const [selectedDesk, setDesk] = useState();
-  const desksOnFloorCount = props.desksOnFloorCount;
-  let occupiedDesks = [];
-  occupiedDesks = props.occupiedDesks;
-  const desk_map = [
-    { id: 1, d: "M8.57 5.66H27.9v38.33H8.57z" },
-    { id: 2, d: "M73.23 5.66h19.33v38.33H73.23z" },
-    { id: 3, d: "M93.23 5.66h19.33v38.33H93.23z" },
-    { id: 4, d: "M123.9 75.33h19.33v38.33H123.9z" },
-    { id: 5, d: "M73.23 75.33h19.33v38.33H73.23z" },
-    { id: 6, d: "M8.57 75.33H27.9v38.33H8.57z" },
-    { id: 7, d: "M183.9 5.66h19.33v38.33H183.9z" },
-    { id: 8, d: "M245.23 5.66h19.33v38.33h-19.33z" },
-    { id: 9, d: "M265.23 5.66h19.33v38.33h-19.33z" },
-    { id: 10, d: "M325.23 5.66h19.33v38.33h-19.33z" },
-    { id: 11, d: "M355.57 5.66h19.33v38.33h-19.33z" },
-    { id: 12, d: "M418.23 5.66h19.33v38.33h-19.33z" },
-    { id: 13, d: "M438.23 5.66h19.33v38.33h-19.33z" },
-    { id: 14, d: "M500.73 5.66h19.33v38.33h-19.33z" },
-    {
-      id: 15,
-      d: "M558.22 138.03h19.33v38.33h-19.33z",
-      transform: "rotate(90 567.79 90.1)",
-    },
-    {
-      id: 16,
-      d: "M342.35 363.28h19.33v38.33h-19.33z",
-      transform: "rotate(-90 284.92 382.54)",
-    },
-    {
-      id: 17,
-      d: "M377.1 334.82h19.33v38.33H377.1z",
-      transform: "rotate(18.49 559.007 114.157)",
-    },
-    {
-      id: 18,
-      d: "M399.26 342.65h19.33v38.33h-19.33z",
-      transform: "rotate(18.49 581.183 121.962)",
-    },
-    {
-      id: 19,
-      d: "M456.35 363.28h19.33v38.33h-19.33z",
-      transform: "rotate(-90 398.92 382.54)",
-    },
-    {
-      id: 20,
-      d: "M491.6 351.03h19.33v38.33H491.6z",
-      transform: "rotate(180 467.665 336.695)",
-    },
-    {
-      id: 21,
-      d: "M567.76 351.03h19.33v38.33h-19.33z",
-      transform: "rotate(180 543.83 336.695)",
-    },
-  ];
+  //const [style, setStyles] = useState([]);
+  const selectedDesk = props.selectedDesk;
+  const [currentDesk, setDesk] = useState();
+
+  //const desksOnFloorCount = props.desksOnFloorCount;
+  const occupiedDesks = props.occupiedDesks;
+  let floorSixData = [];
+  floorSixData = props.floorSixData;
 
   useEffect(() => {
-    console.log(desksOnFloorCount);
-    console.log(typeof occupiedDesks[0]);
-    let styles = [];
-    console.log(occupiedDesks);
-    for (let i = 0; i < desksOnFloorCount; i++) {
-      if (occupiedDesks.includes(i + 1)) {
-        styles[i] = "occupied";
-      } else {
-        styles[i] = "free";
-      }
-    }
-    setStyles(styles);
-    console.log(styles);
-  }, [occupiedDesks]);
+    setDesk(selectedDesk);
+  }, [selectedDesk]);
 
   const selectDesk = (e) => {
     setDesk(e.target.attributes.id.value);
@@ -86,22 +26,25 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1045.23 343.54"
     >
-      {desk_map.map((item) => {
+      {floorSixData.map((item) => {
         return (
           <path
             key={item["id"]}
             onClick={selectDesk}
             id={item["id"]}
             className={
-              selectedDesk == item["id"] && !occupiedDesks.includes(item["id"])
+              currentDesk == item["id"] && !occupiedDesks.includes(item["id"])
                 ? "selected"
-                : style[item["id"] - 1]
+                : item.style
             }
             d={item["d"]}
             transform={"transform" in item ? item["transform"] : null}
-          />
+          >
+            <title className="tooltip">{item["id"]}</title>
+          </path>
         );
       })}
+
       {/* <path
         onClick={selectDesk}
         id="1"

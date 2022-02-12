@@ -4,7 +4,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReservationService from "../services/ReservationService";
 import "../styles/DashBoard.css";
-import FloorFiveLayout from "../FloorFiveLayout";
+import FloorSixLayout from "../FloorSixLayout";
+import desk_map from "../../utils/FloorSixData";
 
 const DashboardPage = (props) => {
   const user = props.user;
@@ -15,9 +16,8 @@ const DashboardPage = (props) => {
   const [desks, setDesks] = useState(null);
   const [selectedDesk, setSelection] = useState(0);
   const [desksOnFloorCount, setCount] = useState(0);
-  //  const [buttonDisabled, setBtnDisabled] = useState();
   const [isLoading, setLoading] = useState(true);
-
+  const [floorSixData, setData] = useState(desk_map);
   const ExampleCustomInput = ({ value, onClick }) => (
     <button type="button" className="btn btn-outline-primary" onClick={onClick}>
       {value}
@@ -33,6 +33,7 @@ const DashboardPage = (props) => {
       returnDesk();
       setLoading(true);
     } else {
+      console.log("got desks");
       setLoading(false);
       getReservedDesks();
     }
@@ -45,6 +46,7 @@ const DashboardPage = (props) => {
       user.email
     );
     returnDesk();
+    console.log("save reservation");
     setSelection(0);
   };
 
@@ -75,11 +77,29 @@ const DashboardPage = (props) => {
         }
       }
     });
-    console.log(occupiedDeskIds);
     setOccupiedDesks(occupiedDeskIds);
+    getDeskStyles(occupiedDeskIds);
     setCount(count);
   };
 
+  const getDeskStyles = (occupiedDesks) => {
+    let floorDataWithStyles;
+    if (selectedFloor === 1) {
+      //to be replaced with fifth floor data
+      floorDataWithStyles = floorSixData;
+    } else {
+      floorDataWithStyles = floorSixData;
+    }
+    floorDataWithStyles.map((desk) => {
+      if (occupiedDesks.includes(desk.id)) {
+        desk.style = "occupied";
+      } else {
+        desk.style = "free";
+      }
+      console.log(desk.style);
+    });
+    setData(floorDataWithStyles);
+  };
   // const changeSelection = (id) => {
   //   setSelection(id);
   //   if (occupied == "occupied") {
@@ -326,11 +346,13 @@ const DashboardPage = (props) => {
                 alignItems: "center",
               }}
             >
-              {selectedFloor == 1 ? (
-                <FloorFiveLayout
-                  occupiedDesks={occupiedDesks}
+              {selectedFloor == 2 ? (
+                <FloorSixLayout
+                  floorSixData={floorSixData}
                   setSelectedDeskID={setSelection}
+                  selectedDesk={selectedDesk}
                   desksOnFloorCount={desksOnFloorCount}
+                  occupiedDesks={occupiedDesks}
                 />
               ) : (
                 <></>
