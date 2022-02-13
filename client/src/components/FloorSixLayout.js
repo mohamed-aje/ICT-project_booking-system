@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./styles/DashBoard.css";
+import desk_map2 from "../utils/FloorSixData";
 
-const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
+const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
   //const [style, setStyles] = useState([]);
   const selectedDesk = props.selectedDesk;
   const [currentDesk, setDesk] = useState();
 
   //const desksOnFloorCount = props.desksOnFloorCount;
   const occupiedDesks = props.occupiedDesks;
-  let floorSixData = [];
-  floorSixData = props.floorSixData;
 
   useEffect(() => {
+    console.log(props.floorData);
     setDesk(selectedDesk);
   }, [selectedDesk]);
 
@@ -19,6 +19,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
     setDesk(e.target.attributes.id.value);
     setSelectedDeskID(e.target.attributes.id.value);
   };
+
   return (
     <svg
       id="Layer_1"
@@ -26,7 +27,7 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 1045.23 343.54"
     >
-      {floorSixData.map((item) => {
+      {desk_map2.map((item) => {
         return (
           <path
             key={item["id"]}
@@ -280,4 +281,4 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
     </svg>
   );
 };
-export default FloorFiveLayout;
+export default FloorSixLayout;

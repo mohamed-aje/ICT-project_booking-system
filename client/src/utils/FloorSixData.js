@@ -1,5 +1,5 @@
 import React from "react";
-const desk_map = [
+const desk_map2 = [
   { id: 68, d: "M8.57 5.66H27.9v38.33H8.57z" },
   { id: 69, d: "M73.23 5.66h19.33v38.33H73.23z" },
   { id: 70, d: "M93.23 5.66h19.33v38.33H93.23z" },
@@ -50,4 +50,4 @@ const desk_map = [
     transform: "rotate(180 543.83 336.695)",
   },
 ];
-export default desk_map;
+export default desk_map2;

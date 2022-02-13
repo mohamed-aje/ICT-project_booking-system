@@ -4,9 +4,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ReservationService from "../services/ReservationService";
 import "../styles/DashBoard.css";
+import FloorFiveLayout from "../FloorFiveLayout";
 import FloorSixLayout from "../FloorSixLayout";
-import desk_map from "../../utils/FloorSixData";
-
+import desk_map1 from "../../utils/FloorFiveData";
+import desk_map2 from "../../utils/FloorSixData";
 const DashboardPage = (props) => {
   const user = props.user;
   const [occupiedDesks, setOccupiedDesks] = useState();
@@ -17,7 +18,9 @@ const DashboardPage = (props) => {
   const [selectedDesk, setSelection] = useState(0);
   const [desksOnFloorCount, setCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
-  const [floorSixData, setData] = useState(desk_map);
+  const [floorFiveData, setFFiveData] = useState(desk_map1);
+  const [floorSixData, setFSixData] = useState(desk_map2);
+  const [floorData, setData] = useState();
   const ExampleCustomInput = ({ value, onClick }) => (
     <button type="button" className="btn btn-outline-primary" onClick={onClick}>
       {value}
@@ -34,8 +37,9 @@ const DashboardPage = (props) => {
       setLoading(true);
     } else {
       console.log("got desks");
-      setLoading(false);
       getReservedDesks();
+
+      setLoading(false);
     }
   }, [selectedDate, selectedFloor, desks, selectedDesk]);
 
@@ -59,7 +63,7 @@ const DashboardPage = (props) => {
       let i = 0;
       if (selectedFloor === desk.floor) {
         count++;
-        console.log(desksOnFloorCount);
+        console.log(count);
         if (desk.reservations.length !== 0) {
           desk.reservations.map((reservation) => {
             reservationDates[i] = reservation.date;
@@ -83,22 +87,27 @@ const DashboardPage = (props) => {
   };
 
   const getDeskStyles = (occupiedDesks) => {
+    setData([]);
     let floorDataWithStyles;
     if (selectedFloor === 1) {
       //to be replaced with fifth floor data
-      floorDataWithStyles = floorSixData;
+      floorDataWithStyles = floorFiveData;
     } else {
       floorDataWithStyles = floorSixData;
     }
     floorDataWithStyles.map((desk) => {
-      if (occupiedDesks.includes(desk.id)) {
-        desk.style = "occupied";
+      let obj = desk;
+      console.log(obj.id);
+      if (occupiedDesks.includes(obj.id)) {
+        obj.style = "occupied";
       } else {
-        desk.style = "free";
+        obj.style = "free";
       }
-      console.log(desk.style);
+      console.log(obj);
+      console.log(floorData);
+      setData((floorData) => [...floorData, obj]);
     });
-    setData(floorDataWithStyles);
+    console.log(floorData);
   };
   // const changeSelection = (id) => {
   //   setSelection(id);
@@ -230,11 +239,7 @@ const DashboardPage = (props) => {
                 </div>
               </div>
             </div>
-            <div className="col-6" style={{ backgroundColor: "green" }}>
-              <p style={{ textAlign: "center", color: "white" }}>
-                Charts come here
-              </p>
-            </div>
+            <div className="col-6"></div>
             <div
               className="col-3"
               style={{
@@ -348,14 +353,20 @@ const DashboardPage = (props) => {
             >
               {selectedFloor == 2 ? (
                 <FloorSixLayout
-                  floorSixData={floorSixData}
+                  floorSixData={floorData}
                   setSelectedDeskID={setSelection}
                   selectedDesk={selectedDesk}
                   desksOnFloorCount={desksOnFloorCount}
                   occupiedDesks={occupiedDesks}
                 />
               ) : (
-                <></>
+                <FloorFiveLayout
+                  floorFiveData={floorData}
+                  setSelectedDeskID={setSelection}
+                  selectedDesk={selectedDesk}
+                  desksOnFloorCount={desksOnFloorCount}
+                  occupiedDesks={occupiedDesks}
+                />
               )}
             </div>
           </div>
