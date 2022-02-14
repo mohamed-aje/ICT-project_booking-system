@@ -53,7 +53,7 @@ public class DeskReservation {
     //@Column(name = "desk_id")
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="desk_Id", nullable=false)
+    @JoinColumn(name="desk_id", nullable=false)
     Desk desk;
 
 

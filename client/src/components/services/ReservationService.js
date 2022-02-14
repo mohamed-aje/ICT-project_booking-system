@@ -13,6 +13,19 @@ class ReservationService {
     return response.data;
   };
 
+  getReservationInfoUserId = async (email) => {
+    console.log(email);
+    let response;
+    try {
+      response = await axios.get(
+        RESERVATIONS_REST_API_URL + "/reservations/getAll/" + email
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    return response.data;
+  };
+
   saveReservation = async (id, selectedDate, email) => {
     // const firstName = name[0];
     // const lastName = name[1];
@@ -30,6 +43,18 @@ class ReservationService {
       console.log(error);
     }
     //console.log("get desks");
+    return response.data;
+  };
+
+  deleteReservation = async (id) => {
+    let response;
+    try {
+      response = await axios.delete(
+        RESERVATIONS_REST_API_URL + "/reservations/" + id
+      );
+    } catch (error) {
+      console.log(error);
+    }
     return response.data;
   };
 }
