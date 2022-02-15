@@ -42,8 +42,11 @@
 .free:hover {
   stroke-width: 2;
   stroke: #02305a;
+  cursor: pointer;
 }
-
+.occupied:hover {
+  cursor: pointer;
+}
 .cls-2 {
   fill: #424242;
 }

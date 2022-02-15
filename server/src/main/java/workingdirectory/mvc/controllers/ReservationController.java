@@ -41,10 +41,15 @@ public class ReservationController {
         return deskReservationService.save(reservation);
     }
 
-
     //read all reservations
-    @GetMapping("/getAll/{account}")
-    public List getAllReservation(@PathVariable String account) throws JsonProcessingException {
+    @GetMapping("/getAllForAll")
+    public List getAllReservationsForAllUser() throws JsonProcessingException {
+        return deskReservationService.findAllReservations();
+    }
+
+    //read all reservations for current user
+    @GetMapping("/getAllForOne/{account}")
+    public List getAllReservationsForOneUser(@PathVariable String account) throws JsonProcessingException {
         return deskReservationService.findAllByUserId(account);
     }
 

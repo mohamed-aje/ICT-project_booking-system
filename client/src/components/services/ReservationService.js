@@ -18,7 +18,7 @@ class ReservationService {
     let response;
     try {
       response = await axios.get(
-        RESERVATIONS_REST_API_URL + "/reservations/getAll/" + email
+        RESERVATIONS_REST_API_URL + "/reservations/getAllForOne/" + email
       );
     } catch (error) {
       console.log(error);

@@ -13,7 +13,13 @@ import java.util.List;
 public interface DeskReservationRepository extends JpaRepository<DeskReservation, Long> {
 
     @Query(value = "select new workingdirectory.mvc.models.UserReservationsInfo(r.desk.deskId, r, r.user.firstName, r.user.lastName, r.user.anonymReservations) " +
+            "from DeskReservation r")
+    List findAllReservations();
+
+    @Query(value = "select new workingdirectory.mvc.models.UserReservationsInfo(r.desk.deskId, r, r.user.firstName, r.user.lastName, r.user.anonymReservations) " +
             "from DeskReservation r " +
             "where r.user.account=:account")
     List findAllByUserId(String account);
+
+
 }

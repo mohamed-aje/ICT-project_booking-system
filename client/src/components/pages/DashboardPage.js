@@ -109,42 +109,7 @@ const DashboardPage = (props) => {
     });
     console.log(floorData);
   };
-  // const changeSelection = (id) => {
-  //   setSelection(id);
-  //   if (occupied == "occupied") {
-  //     setOccupied(true);
-  //     //setBtnDisabled(true);
-  //   } else {
-  //     setOccupied(false);
-  //     //setBtnDisabled(false);
-  //   }
-  // };
 
-  // const renderDesk = (desk) => {
-  //   if (selectedFloor === desk.floor) {
-  //     let selected = "";
-  //     if (desk.deskId === selectedDesk) {
-  //       selected = "selected";
-  //     }
-  //     let occupied = "";
-  //     if (occupiedDesks.includes(desk.deskId)) {
-  //       occupied = "occupied";
-  //     } else {
-  //       occupied = "free";
-  //     }
-  //     let style = selected + " " + occupied + " desk";
-
-  //     return (
-  //       <div
-  //         key={desk.deskId}
-  //         onClick={() => changeSelection(desk.deskId, occupied)}
-  //         className={style}
-  //       ></div>
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // };
   return (
     <>
       {!isLoading ? (
