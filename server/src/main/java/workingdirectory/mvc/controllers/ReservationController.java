@@ -1,6 +1,5 @@
 package workingdirectory.mvc.controllers;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,7 @@ import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
 import workingdirectory.mvc.repositories.UserRepository;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -43,15 +43,15 @@ public class ReservationController {
 
 
     //read all reservations
-    @GetMapping("/getall")
-    public List<DeskReservation> getAllReservation() throws JsonProcessingException {
-        return deskReservationService.findAll();
+    @GetMapping("/getAll/{account}")
+    public List getAllReservation(@PathVariable String account) throws JsonProcessingException {
+        return deskReservationService.findAllByUserId(account);
     }
 
     //update reservation
     @PutMapping("{id}")
     public ResponseEntity<DeskReservation> updateReservation(@PathVariable Long id, @RequestBody DeskReservation reservation) throws JsonProcessingException {
-        DeskReservation updatedReservation = deskReservationService.findById(id)
+        DeskReservation updatedReservation = deskReservationService.findById(reservation.getReservationId())
                 .orElseThrow();
 
         //System.out.println(reservation.getEmail());

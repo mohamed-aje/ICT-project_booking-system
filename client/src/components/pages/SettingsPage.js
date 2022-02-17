@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import UserService from "../services/UserService";
+import ReservationService from "../services/ReservationService";
+import { Link } from "react-router-dom";
 
 const Settings = (props) => {
   const user = props.user;
@@ -9,22 +11,36 @@ const Settings = (props) => {
   const [anonymReservation, setReservation] = useState(false);
   const [selectedDesk, setSelection] = useState();
   const [isSaveBtnVisible, setBtnVisible] = useState(false);
+  const [reservationsByUser, setReservationsByUser] = useState(null);
 
+  const returnUser = async () => {
+    setUserData(await UserService.getUser(user.email));
+  };
+
+  const returnReservationInfo = async () => {
+    setReservationsByUser(
+      await ReservationService.getReservationInfoUserId(user.email)
+    );
+  };
   useEffect(() => {
-    const returnUser = async () => {
-      setUserData(await UserService.getUser(user.email));
-    };
-    if (!userData) {
-      returnUser();
-    }
     if (userData) {
       setLoading(false);
       setReservation(userData.anonymReservations);
     } else {
       setLoading(true);
     }
-    console.log(isLoading);
-  }, [userData]);
+
+    if (!userData) {
+      returnUser();
+    }
+
+    if (!reservationsByUser) {
+      returnReservationInfo();
+      setLoading(true);
+    } else {
+      console.log(reservationsByUser);
+    }
+  }, [userData, reservationsByUser]);
 
   const changeState = () => {
     if (!anonymReservation) {
@@ -43,11 +59,20 @@ const Settings = (props) => {
     saveAnonimityChange();
     setBtnVisible(false);
   };
+
+  const deleteReservation = async (id) => {
+    await ReservationService.deleteReservation(id);
+    returnReservationInfo();
+  };
+
   return (
     <>
       {!isLoading ? (
         <div className="container">
-          <div className="row" style={{ marginTop: "20px" }}>
+          <div
+            className="row"
+            style={{ marginTop: "20px", justifySelf: "center" }}
+          >
             <div className="col-6">
               <div
                 style={{
@@ -97,6 +122,57 @@ const Settings = (props) => {
                   </button>
                 </div>
               ) : null}
+            </div>
+            <div className="col-6" style={{ marginTop: "20px" }}>
+              <h4 style={{ marginBottom: "20px" }}>My reservations</h4>
+              {reservationsByUser.length !== 0 ? (
+                <table className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Desk ID</th>
+                      <th>Date</th>
+                      <th>Last modified</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {reservationsByUser.map((item) => (
+                      <tr key={item.reservation.reservationId}>
+                        <td>
+                          <b>{item.deskId}</b>
+                        </td>
+                        <td>{item.reservation.date}</td>
+                        <td>{item.reservation.updateTimeStamp}</td>
+                        <td>
+                          {/*                           <Link
+                            className="btn btn-info"
+                            style={{
+                              backgroundColor: "#00a4ff",
+                              color: "white",
+                            }}
+                            to={``}
+                          >
+                            Update
+                          </Link> */}
+                          <button
+                            className="btn btn-danger"
+                            style={{
+                              marginLeft: "10px",
+                            }}
+                            onClick={() =>
+                              deleteReservation(item.reservation.reservationId)
+                            }
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                <p>No reservations found</p>
+              )}
             </div>
           </div>
         </div>

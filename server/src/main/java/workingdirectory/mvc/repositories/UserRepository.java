@@ -9,5 +9,4 @@ import workingdirectory.mvc.models.User;
 import javax.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<User, String> {
-
 }

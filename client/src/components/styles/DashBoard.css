@@ -42,8 +42,11 @@
 .free:hover {
   stroke-width: 2;
   stroke: #02305a;
+  cursor: pointer;
 }
-
+.occupied:hover {
+  cursor: pointer;
+}
 .cls-2 {
   fill: #424242;
 }
@@ -116,4 +119,40 @@
 }
 .cls-22 {
   letter-spacing: -0.06em;
+}
+.wall {
+  fill: #424242;
+}
+
+.room {
+  fill: white;
+}
+
+.cls-3 {
+  fill: none;
+}
+
+.circle {
+  fill: #00a4ff;
+}
+.numberings,
+.roomlabelsmaller {
+  font-size: 12px;
+}
+.numberings,
+.roomlabelsmaller,
+.roomlabel {
+  fill: #353535;
+}
+.numberings,
+.roomlabelsmaller,
+.roomlabel {
+  font-family: MyriadPro-Regular, sans-serif;
+}
+.roomlabel {
+  font-size: 13px;
+}
+
+.cls-24 {
+  fill: #56ff4f;
 }
