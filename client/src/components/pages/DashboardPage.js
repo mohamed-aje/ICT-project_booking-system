@@ -41,10 +41,12 @@ const DashboardPage = (props) => {
 
   const isWeekday = (date) => {
     const day = date.getDay();
+    console.log("day: " + day);
+    console.log(day !== 0 && day !== 6);
     return day !== 0 && day !== 6;
   };
-  const months = (date, NumberOfMonths) => {
-    return date.setMonth(date.getMonth() + NumberOfMonths);
+  const months = (date, numOfmonths) => {
+    return date.setMonth(date.getMonth() + numOfmonths);
   };
 
   useEffect(() => {
@@ -219,8 +221,8 @@ const DashboardPage = (props) => {
                       <DatePicker
                         selected={selectedDate}
                         onChange={(date) => onChange(date)}
-                        minimumDate={new Date()}
-                        maximumDate={months(new Date(), 2)}
+                        minDate={new Date()}
+                        maxDate={months(new Date(), 6)}
                         filterDate={isWeekday}
                         customInput={<ExampleCustomInput />}
                       />
