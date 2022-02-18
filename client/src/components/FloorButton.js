@@ -76,15 +76,17 @@ const FloorButton = ({ floorSend, ...props }) => {
           <p>Available</p>
         </div>
         <div style={{ display: "flex", flexDirection: "row" }}>
-          <div
-            style={{
-              height: "20px",
-              width: "20px",
-              backgroundColor: "#02305a",
-              marginRight: "5px",
-            }}
-          ></div>
-          <p>Selected</p>
+          <div className="selectedbox">
+            <div
+              style={{
+                height: "20px",
+                width: "20px",
+                backgroundColor: "#02305a",
+                marginRight: "5px",
+              }}
+            ></div>
+            <p>Selected</p>
+          </div>
         </div>
       </div>
     </div>

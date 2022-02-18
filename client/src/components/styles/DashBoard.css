@@ -1,6 +1,31 @@
 .floorBtn:hover {
   background-color: #0d6efd !important;
 }
+.selectedbox {
+  display: flex;
+  flex-direction: row;
+}
+.selectedbox > p {
+  margin-bottom: 0.5rem !important;
+}
+.flexColumnFlexEndAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.desknumberbox > p {
+  color: white;
+  margin-bottom: 0px;
+  font-size: 18px;
+}
+.desknumberbox {
+  background-color: #02305a;
+  height: 38px;
+  width: 100px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
 
 .floorBtn {
   align-items: center;
@@ -155,4 +180,22 @@
 
 .cls-24 {
   fill: #56ff4f;
+}
+.flexColumnFlexEndAlign {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.switch-multi-button .sweep-button-item-active {
+  background-color: #02305a !important;
+}
+.switch-multi-button .sweep-button-item {
+  color: white;
+}
+.switch-multi-button,
+.switch-multi-button .sweep-button-item {
+  border-radius: 20px;
+}
+.switch-multi-button {
+  background-color: lightgray;
 }
