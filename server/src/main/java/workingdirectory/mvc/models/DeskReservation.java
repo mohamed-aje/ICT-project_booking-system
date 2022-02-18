@@ -44,13 +44,10 @@ public class DeskReservation {
     @Transient
     String email;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="account", nullable=false)
     User user;
 
-   // @NotNull
-    //@Column(name = "desk_id")
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name="desk_id", nullable=false)

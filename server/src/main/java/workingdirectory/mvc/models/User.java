@@ -1,5 +1,6 @@
 package workingdirectory.mvc.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class User {
     @Column(name = "role")
     String role;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<DeskReservation> reservations;
 }

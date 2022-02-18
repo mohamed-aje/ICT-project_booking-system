@@ -12,7 +12,6 @@ import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
 import workingdirectory.mvc.repositories.UserRepository;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -42,8 +41,6 @@ public class ReservationController {
     }
 
     //read all reservations
-    @GetMapping("/getAll/{account}")
-    public List getAllReservation(@PathVariable String account) throws JsonProcessingException {
     @GetMapping("/getAllForAll")
     public List getAllReservationsForAllUser() throws JsonProcessingException {
         return deskReservationService.findAllReservations();
@@ -61,16 +58,11 @@ public class ReservationController {
         DeskReservation updatedReservation = deskReservationService.findById(reservation.getReservationId())
                 .orElseThrow();
 
-        //System.out.println(reservation.getEmail());
-        //User user = userService.findById(reservation.getEmail())
-        //        .orElseThrow();
-
-        //user.setAccount(reservation.getEmail());
         Desk desk = deskService.findById(id).orElseThrow();
 
         updatedReservation.setDate(reservation.getDate());
+
         updatedReservation.setDesk(desk);
-        //updatedReservation.setUser(user);
 
         deskReservationService.save(updatedReservation);
 
