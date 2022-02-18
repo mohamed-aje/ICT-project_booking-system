@@ -10,12 +10,15 @@ import desk_map1 from "../../utils/FloorFiveData";
 import desk_map2 from "../../utils/FloorSixData";
 import FloorButton from "../FloorButton";
 import { SwitchMultiButton } from "switch-multi-button";
+import ReservationsSub from "../ReservationsSub";
 
 const DashboardPage = (props) => {
   const user = props.user;
   const [occupiedDesks, setOccupiedDesks] = useState();
   const [isOccupied, setOccupied] = useState(false);
   const [selectedDate, onChange] = useState(new Date());
+  const [occupiedDesksCount, setOccupiedDesksCount] = useState();
+
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState(null);
   const [selectedDesk, setSelection] = useState(0);
@@ -25,6 +28,7 @@ const DashboardPage = (props) => {
   const [floorSixData, setFSixData] = useState(desk_map2);
   const [floorData, setData] = useState();
   const [subPage, setSubPage] = useState("dashboard");
+  const [numOfAllDesks, setAllDesksCount] = useState();
   const ExampleCustomInput = ({ value, onClick }) => (
     <button type="button" className="btn btn-outline-primary" onClick={onClick}>
       {value}
@@ -34,6 +38,7 @@ const DashboardPage = (props) => {
   const returnDesk = async () => {
     setDesks(await ReservationService.getAllDesks());
   };
+
   const isWeekday = (date) => {
     const day = date.getDay();
     return day !== 0 && day !== 6;
@@ -129,30 +134,38 @@ const DashboardPage = (props) => {
             className="row"
             style={
               subPage == "dashboard"
-                ? { marginTop: "20px", marginBottom: "20px", height: "20vh" }
-                : { marginTop: "20px", marginBottom: "20px", height: "20vh" }
+                ? { marginTop: "20px", marginBottom: "20px", height: "18vh" }
+                : { marginTop: "20px", marginBottom: "20px", height: "10vh" }
             }
           >
             <div className="col-3">
               {subPage == "dashboard" ? (
-                <FloorButton floorSend={setFloor} floor={selectedFloor} />
+                <FloorButton sendFloor={setFloor} floor={selectedFloor} />
               ) : null}
             </div>
             <div className="col-6">
-              <SwitchMultiButton
-                value={subPage}
-                setValue={setSubPage}
-                buttons={[
-                  {
-                    text: "Dashboard",
-                    value: "dashboard",
-                  },
-                  {
-                    text: "Reservations",
-                    value: "subPage",
-                  },
-                ]}
-              />
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <SwitchMultiButton
+                  value={subPage} // set as default button
+                  setValue={setSubPage}
+                  buttons={[
+                    {
+                      text: "Dashboard",
+                      value: "dashboard",
+                    },
+                    {
+                      text: "Reservations",
+                      value: "reservations",
+                    },
+                  ]}
+                />
+              </div>
             </div>
             <div
               className="col-3"
@@ -169,67 +182,38 @@ const DashboardPage = (props) => {
                   justifyContent: "flex-end",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-end",
-                  }}
-                  className="col-6"
-                >
-                  <b style={{ color: "#02305a" }}>Selected desk: </b>
-                  {selectedDesk !== 0 ? (
-                    <>
-                      <div
-                        style={{
-                          backgroundColor: "#02305a",
-                          height: "38px",
-                          width: "100px",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          display: "flex",
-                        }}
-                      >
-                        <p
-                          style={{
-                            color: "white",
-                            marginBottom: "0px",
-                            fontSize: "18px",
-                          }}
-                        >
-                          {selectedDesk}
-                        </p>
-                      </div>
-                      {isOccupied ? (
-                        <p style={{ color: "#ff5f8f" }}>
-                          <b>Occupied</b>
-                        </p>
+                <div className="col-6">
+                  {subPage == "dashboard" ? (
+                    <div className="flexColumnFlexEndAlign">
+                      <b style={{ color: "#02305a" }}>Selected desk: </b>
+                      {selectedDesk !== 0 ? (
+                        <>
+                          <div className="desknumberbox">
+                            <p>{selectedDesk}</p>
+                          </div>
+                          {isOccupied ? (
+                            <p style={{ color: "#ff5f8f" }}>
+                              <b>Occupied</b>
+                            </p>
+                          ) : (
+                            <p style={{ color: "#56ff4f" }}>
+                              <b>Available</b>
+                            </p>
+                          )}
+                        </>
                       ) : (
-                        <p style={{ color: "#56ff4f" }}>
-                          <b>Available</b>
-                        </p>
+                        <p style={{ fontSize: "13px" }}>No desk selected</p>
                       )}
-                    </>
-                  ) : (
-                    <p style={{ fontSize: "13px" }}>No desk selected</p>
-                  )}
+                    </div>
+                  ) : null}
                 </div>
                 <div
-                  className="col-6"
+                  className="col-6 flexColumnFlexEndAlign"
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
                     justifyContent: "space-between",
-                    alignItems: "flex-end",
                   }}
                 >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "flex-end",
-                    }}
-                  >
+                  <div className="flexColumnFlexEndAlign">
                     <b style={{ color: "#02305a" }}>Selected date:</b>
                     <div>
                       <DatePicker
@@ -271,21 +255,29 @@ const DashboardPage = (props) => {
                 alignItems: "center",
               }}
             >
-              {selectedFloor == 2 ? (
-                <FloorSixLayout
-                  floorSixData={floorData}
-                  setSelectedDeskID={setSelection}
-                  selectedDesk={selectedDesk}
-                  desksOnFloorCount={desksOnFloorCount}
-                  occupiedDesks={occupiedDesks}
-                />
+              {subPage == "dashboard" ? (
+                selectedFloor == 2 ? (
+                  <FloorSixLayout
+                    setSelectedDeskID={setSelection}
+                    floorSixData={floorData}
+                    selectedDesk={selectedDesk}
+                    desksOnFloorCount={desksOnFloorCount}
+                    occupiedDesks={occupiedDesks}
+                  />
+                ) : (
+                  <FloorFiveLayout
+                    floorFiveData={floorData}
+                    setSelectedDeskID={setSelection}
+                    selectedDesk={selectedDesk}
+                    desksOnFloorCount={desksOnFloorCount}
+                    occupiedDesks={occupiedDesks}
+                  />
+                )
               ) : (
-                <FloorFiveLayout
-                  floorFiveData={floorData}
-                  setSelectedDeskID={setSelection}
-                  selectedDesk={selectedDesk}
-                  desksOnFloorCount={desksOnFloorCount}
-                  occupiedDesks={occupiedDesks}
+                <ReservationsSub
+                  selectedDate={selectedDate}
+                  numOfAllDesks={numOfAllDesks}
+                  occupiedDesksCount={occupiedDesksCount}
                 />
               )}
             </div>

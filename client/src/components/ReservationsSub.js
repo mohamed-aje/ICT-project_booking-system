@@ -1,22 +1,18 @@
 import React from "react";
 
-const ReservationsSub = () => {
+const ReservationsSubpage = (props) => {
   const selectedDate = props.selectedDate;
-  const numberOfDesks = props.numberOfDesks;
-  const numOfOccupiedDesks = props.numOfOccupiedDesks;
+  const numOfAllDesks = props.numOfAllDesks;
+  const occupiedDesksCount = props.occupiedDesksCount;
+
+  //here useeffect that retrieves the reservations using URL (http://localhost:8080/reservations/getAllForAll)
   return (
     <div>
-      <tr key={reservation_id}>
-        <td>{date}</td>
-        <td>{first_name}</td>
-        <td>{last_name}</td>
-        <td>{desk_id}</td>
-
-        <td>
-          <button>Edit</button>
-        </td>
-      </tr>{" "}
+      <p>
+        Hello on reservations subpage. {occupiedDesksCount} desks are occupied
+        out of {numOfAllDesks} for date {selectedDate.toLocaleDateString()}
+      </p>
     </div>
   );
 };
-export default ReservationsSub;
+export default ReservationsSubpage;
