@@ -140,7 +140,7 @@ const DashboardPage = (props) => {
           >
             <div className="col-3">
               {subPage == "dashboard" ? (
-                <FloorButton sendFloor={setFloor} floor={selectedFloor} />
+                <FloorButton floorSend={setFloor} floor={selectedFloor} />
               ) : null}
             </div>
             <div className="col-6">
