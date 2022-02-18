@@ -11,6 +11,7 @@ import desk_map2 from "../../utils/FloorSixData";
 import FloorButton from "../FloorButton";
 import { SwitchMultiButton } from "switch-multi-button";
 import ReservationsSub from "../ReservationsSub";
+import Footer from "./Footer";
 
 const DashboardPage = (props) => {
   const user = props.user;
@@ -286,6 +287,7 @@ const DashboardPage = (props) => {
           </div>
         </div>
       ) : null}
+      <Footer />;
     </>
   );
 };
