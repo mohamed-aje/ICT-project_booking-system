@@ -4,6 +4,7 @@ import DashboardPage from "./components/pages/DashboardPage";
 import LoginPage from "./components/pages/LoginPage";
 import SettingsPage from "./components/pages/SettingsPage";
 import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/pages/Footer";
 
 const App = () => {
   const [user, setUser] = useState();
@@ -32,6 +33,7 @@ const App = () => {
             )}
           </Routes>
         </div>
+        <Footer />
       </Router>
     </>
   );
