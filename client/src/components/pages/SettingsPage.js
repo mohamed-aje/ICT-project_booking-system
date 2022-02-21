@@ -12,6 +12,7 @@ const Settings = (props) => {
   const [selectedDesk, setSelection] = useState();
   const [isSaveBtnVisible, setBtnVisible] = useState(false);
   const [reservationsByUser, setReservationsByUser] = useState(null);
+  const [successMessage, setSuccesMessage] = useState();
 
   const returnUser = async () => {
     setUserData(await UserService.getUser(user.email));
@@ -58,6 +59,15 @@ const Settings = (props) => {
     };
     saveAnonimityChange();
     setBtnVisible(false);
+    setSuccesMessage(
+      <div
+        class="alert alert-success"
+        style={{ marginTop: "10px", width: "fit-content" }}
+        role="alert"
+      >
+        Latest change has been successfully saved!
+      </div>
+    );
   };
 
   const deleteReservation = async (id) => {
@@ -71,7 +81,7 @@ const Settings = (props) => {
         <div className="container">
           <div
             className="row"
-            style={{ marginTop: "20px", justifySelf: "center" }}
+            style={{ marginTop: "50px", justifySelf: "center" }}
           >
             <div className="col-6">
               <div
@@ -121,30 +131,68 @@ const Settings = (props) => {
                     Save setting
                   </button>
                 </div>
-              ) : null}
+              ) : (
+                successMessage
+              )}
             </div>
-            <div className="col-6" style={{ marginTop: "20px" }}>
+            <div
+              className="col-6"
+              style={{
+                marginTop: "20px",
+              }}
+            >
               <h4 style={{ marginBottom: "20px" }}>My reservations</h4>
-              {reservationsByUser.length !== 0 ? (
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Desk ID</th>
-                      <th>Date</th>
-                      <th>Last modified</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reservationsByUser.map((item) => (
-                      <tr key={item.reservation.reservationId}>
-                        <td>
-                          <b>{item.deskId}</b>
-                        </td>
-                        <td>{item.reservation.date}</td>
-                        <td>{item.reservation.updateTimeStamp}</td>
-                        <td>
-                          {/*                           <Link
+              <div style={{ overflow: "auto", maxHeight: "500px" }}>
+                {reservationsByUser.length !== 0 ? (
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        <th
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            backgroundColor: "white",
+                          }}
+                        >
+                          Desk ID
+                        </th>
+                        <th
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            backgroundColor: "white",
+                          }}
+                        >
+                          Date
+                        </th>
+                        <th
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            backgroundColor: "white",
+                          }}
+                        >
+                          Last modified
+                        </th>
+                        <th
+                          style={{
+                            position: "sticky",
+                            top: "0",
+                            backgroundColor: "white",
+                          }}
+                        ></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {reservationsByUser.map((item) => (
+                        <tr key={item.desk_id}>
+                          <td>
+                            <b>{item.desk_id}</b>
+                          </td>
+                          <td>{item.reservations.date}</td>
+                          <td>{item.reservations.updateTimeStamp}</td>
+                          <td>
+                            {/*                           <Link
                             className="btn btn-info"
                             style={{
                               backgroundColor: "#00a4ff",
@@ -154,25 +202,28 @@ const Settings = (props) => {
                           >
                             Update
                           </Link> */}
-                          <button
-                            className="btn btn-danger"
-                            style={{
-                              marginLeft: "10px",
-                            }}
-                            onClick={() =>
-                              deleteReservation(item.reservation.reservationId)
-                            }
-                          >
-                            Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              ) : (
-                <p>No reservations found</p>
-              )}
+                            <button
+                              className="btn btn-danger"
+                              style={{
+                                marginLeft: "10px",
+                              }}
+                              onClick={() =>
+                                deleteReservation(
+                                  item.reservations.reservationId
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No reservations found</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
