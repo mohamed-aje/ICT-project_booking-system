@@ -13,7 +13,6 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
 
   useEffect(() => {
     setDesk(selectedDesk);
-    console.log(props.floorData);
     !desk_map2 ? setLoading(true) : setLoading(false);
   }, [selectedDesk]);
 

@@ -2,9 +2,9 @@ import React from "react";
 import "./styles/ReservationSub.css";
 
 const ReservationsSubpage = (props) => {
-  const selectedDate = props.selectedDate;
-  const numOfAllDesks = props.numOfAllDesks;
-  const occupiedDesksCount = props.occupiedDesksCount;
+  // const selectedDate = props.selectedDate;
+  // const numOfAllDesks = props.numOfAllDesks;
+  // const occupiedDesksCount = props.occupiedDesksCount;
 
   //here useeffect that retrieves the reservations using URL (http://localhost:8080/reservations/getAllForAll)
   return (

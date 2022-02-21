@@ -12,24 +12,26 @@ import FloorButton from "../FloorButton";
 import { SwitchMultiButton } from "switch-multi-button";
 import ReservationsSub from "../ReservationsSub";
 import Footer from "./Footer";
-
+import ReactTooltip from "react-tooltip";
 const DashboardPage = (props) => {
   const user = props.user;
-  const [occupiedDesks, setOccupiedDesks] = useState();
-  const [isOccupied, setOccupied] = useState(false);
-  const [selectedDate, onChange] = useState(new Date());
-  const [occupiedDesksCount, setOccupiedDesksCount] = useState();
-
-  const [selectedFloor, setFloor] = useState(1);
-  const [desks, setDesks] = useState(null);
-  const [selectedDesk, setSelection] = useState(0);
-  const [desksOnFloorCount, setCount] = useState(0);
   const [isLoading, setLoading] = useState(true);
+
+  const [selectedDate, onChange] = useState(new Date());
+  const [selectedDesk, setSelection] = useState(0);
+
+  const [isOccupied, setOccupied] = useState(false);
+
+  const [deskCountByFloors, setCount] = useState();
+  const [selectedFloor, setFloor] = useState(1);
   const [floorFiveData, setFFiveData] = useState(desk_map1);
   const [floorSixData, setFSixData] = useState(desk_map2);
   const [floorData, setData] = useState();
-  const [subPage, setSubPage] = useState("dashboard");
+
+  const [desks, setDesks] = useState(null);
   const [numOfAllDesks, setAllDesksCount] = useState();
+
+  const [subPage, setSubPage] = useState("dashboard");
   const ExampleCustomInput = ({ value, onClick }) => (
     <button type="button" className="btn btn-outline-primary" onClick={onClick}>
       {value}
@@ -42,8 +44,6 @@ const DashboardPage = (props) => {
 
   const isWeekday = (date) => {
     const day = date.getDay();
-    console.log("day: " + day);
-    console.log(day !== 0 && day !== 6);
     return day !== 0 && day !== 6;
   };
   const months = (date, numOfmonths) => {
@@ -55,11 +55,10 @@ const DashboardPage = (props) => {
       returnDesk();
       setLoading(true);
     } else {
-      console.log("got desks");
       getReservedDesks();
-
       setLoading(false);
     }
+    ReactTooltip.rebuild();
   }, [selectedDate, selectedFloor, desks, selectedDesk]);
 
   const saveReservation = async () => {
@@ -73,60 +72,65 @@ const DashboardPage = (props) => {
     setSelection(0);
   };
 
-  let count = 0;
   const getReservedDesks = () => {
-    let occupiedDeskIds = [];
+    let occupiedDesksData = [];
     let index = 0;
+    let firstFloorDesksCount = 0;
     desks.map((desk) => {
-      let reservationDates = [];
-      let i = 0;
-      if (selectedFloor === desk.floor) {
-        count++;
-        console.log(count);
-        if (desk.reservations.length !== 0) {
-          desk.reservations.map((reservation) => {
-            reservationDates[i] = reservation.date;
-            i++;
-          });
-        }
-        if (reservationDates.includes(selectedDate.toLocaleDateString())) {
-          if (selectedDesk == desk.deskId) {
-            setOccupied(true);
-          }
-          occupiedDeskIds[index] = desk.deskId;
+      if (desk.floor == 1) {
+        firstFloorDesksCount++;
+      }
+      if (desk.reservations.length !== 0) {
+        let reservationForSelectedDate = desk.reservations.filter(
+          (reservation) => reservation.date == selectedDate.toLocaleDateString()
+        )[0];
+        if (reservationForSelectedDate) {
+          let deskId = desk.deskId;
+          let floor = desk.floor;
+          let user = !reservationForSelectedDate.user.anonymReservations
+            ? [
+                reservationForSelectedDate.user.firstName,
+                reservationForSelectedDate.user.lastName,
+              ].join(" ")
+            : null;
+          occupiedDesksData[index] = { deskId, floor, user };
           index++;
-        } else if (selectedDesk == desk.deskId) {
-          setOccupied(false);
         }
       }
     });
-    setOccupiedDesks(occupiedDeskIds);
-    getDeskStyles(occupiedDeskIds);
-    setCount(count);
+    let secondFloorDesksCount = desks.length - firstFloorDesksCount;
+    setCount(firstFloorDesksCount, secondFloorDesksCount);
+
+    getDeskStyles(occupiedDesksData);
   };
 
-  const getDeskStyles = (occupiedDesks) => {
+  const getDeskStyles = (occupiedDesksData) => {
     setData([]);
+    setOccupied(false);
     let floorDataWithStyles;
     if (selectedFloor === 1) {
-      //to be replaced with fifth floor data
       floorDataWithStyles = floorFiveData;
     } else {
       floorDataWithStyles = floorSixData;
     }
     floorDataWithStyles.map((desk) => {
       let obj = desk;
-      console.log(obj.id);
-      if (occupiedDesks.includes(obj.id)) {
+      let deskData = occupiedDesksData.filter(
+        (deskData) => deskData.deskId == obj.id
+      )[0];
+      console.log(deskData);
+      if (deskData) {
+        if (deskData.deskId == selectedDesk) {
+          setOccupied(true);
+        }
         obj.style = "occupied";
+        obj.user = deskData.user;
       } else {
         obj.style = "free";
+        obj.user = null;
       }
-      console.log(obj);
-      console.log(floorData);
       setData((floorData) => [...floorData, obj]);
     });
-    console.log(floorData);
   };
 
   return (
@@ -240,13 +244,19 @@ const DashboardPage = (props) => {
                       >
                         Book desk
                       </button>
+                      <ReactTooltip
+                        id="user"
+                        place="right"
+                        type="info"
+                        effect="solid"
+                        multiline={false}
+                      />
                     </div>
                   ) : null}
                 </div>
               </div>
             </div>
           </div>
-
           <div className="row">
             <div
               className="col-12"
@@ -264,24 +274,16 @@ const DashboardPage = (props) => {
                     setSelectedDeskID={setSelection}
                     floorSixData={floorData}
                     selectedDesk={selectedDesk}
-                    desksOnFloorCount={desksOnFloorCount}
-                    occupiedDesks={occupiedDesks}
                   />
                 ) : (
                   <FloorFiveLayout
-                    floorFiveData={floorData}
                     setSelectedDeskID={setSelection}
+                    floorFiveData={floorData}
                     selectedDesk={selectedDesk}
-                    desksOnFloorCount={desksOnFloorCount}
-                    occupiedDesks={occupiedDesks}
                   />
                 )
               ) : (
-                <ReservationsSub
-                  selectedDate={selectedDate}
-                  numOfAllDesks={numOfAllDesks}
-                  occupiedDesksCount={occupiedDesksCount}
-                />
+                <ReservationsSub />
               )}
             </div>
           </div>
