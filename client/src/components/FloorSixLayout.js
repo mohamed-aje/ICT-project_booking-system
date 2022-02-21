@@ -4,6 +4,7 @@ import "./styles/DashBoard.css";
 
 const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
   //const [style, setStyles] = useState([]);
+  const floorSixData = props.floorSixData;
   const selectedDesk = props.selectedDesk;
   const [currentDesk, setDesk] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -13,7 +14,6 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
 
   useEffect(() => {
     setDesk(selectedDesk);
-    console.log(props.floorData);
     !desk_map2 ? setLoading(true) : setLoading(false);
   }, [selectedDesk]);
 
@@ -36,18 +36,13 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
           d="M416.54 193.79V166.83l-114.18-.18v-35.28l-63.03.16-.33 64.35h-29l.23-15.16H74.82V72.07h511.84v94.62H476.38v32.06h-55.75v-4.98l-4.09.02z"
         />
         {!isLoading
-          ? desk_map2.map((item) => {
+          ? floorSixData.map((item) => {
               return (
-                <g>
+                <g key={item["id"]} id={item["id"]} onClick={selectDesk}>
                   <path
-                    key={item["id"]}
-                    onClick={selectDesk}
                     id={item["id"]}
                     className={
-                      currentDesk == item["id"] &&
-                      !occupiedDesks.includes(item["id"])
-                        ? "selected"
-                        : item.style
+                      currentDesk == item["id"] ? "selected" : item.style
                     }
                     d={item["d"]}
                     transform={"transform" in item ? item["transform"] : null}
@@ -55,12 +50,18 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
                     <title className="tooltip">{item["id"]}</title>
                   </path>
                   <circle
-                    className="cirlce"
+                    className="circle"
                     cx={item["cx"]}
                     cy={item["cy"]}
                     r={5.25}
                   />
-                  <text className="numberings" transform={item["txtTransform"]}>
+                  <text
+                    className="numberings"
+                    style={{
+                      fill: currentDesk == item["id"] ? "white" : "black",
+                    }}
+                    transform={item["txtTransform"]}
+                  >
                     {item["id"]}
                   </text>
                 </g>

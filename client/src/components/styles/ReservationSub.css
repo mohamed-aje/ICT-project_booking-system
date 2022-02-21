@@ -2,3 +2,16 @@
   width: 100%;
   height: 100%;
 }
+.table {
+  border: 5px solid rgb(3, 46, 126);
+}
+
+th,
+td {
+  letter-spacing: 2px;
+}
+
+thead {
+  background-color: #02305a;
+  color: aliceblue;
+}
