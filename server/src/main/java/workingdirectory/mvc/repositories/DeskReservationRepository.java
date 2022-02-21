@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface DeskReservationRepository extends JpaRepository<DeskReservation, Long> {
 
-    @Query(value = "select new workingdirectory.mvc.models.ReservationWithDesk(r.desk.deskId, r) " +
+    @Query(value = "select new workingdirectory.mvc.models.ReservationWithDesk(r.desk.deskId, r.desk.floor, r) " +
             "from DeskReservation r")
     List findAllReservations();
 
-    @Query(value = "select new workingdirectory.mvc.models.ReservationWithDesk(r.desk.deskId, r) " +
+    @Query(value = "select new workingdirectory.mvc.models.ReservationWithDesk(r.desk.deskId, r.desk.floor, r) " +
             "from DeskReservation r " +
             "where r.user.account=:account")
     List findAllByUserId(String account);

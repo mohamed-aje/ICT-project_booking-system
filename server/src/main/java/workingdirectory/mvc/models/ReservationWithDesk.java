@@ -7,5 +7,7 @@ import lombok.Data;
 @Data
 public class ReservationWithDesk {
     private long desk_id;
+    private Integer floor;
     private Object reservations;
+
 }
