@@ -87,6 +87,7 @@ const DashboardPage = (props) => {
         let reservationForSelectedDate = desk.reservations.filter(
           (reservation) => reservation.date == selectedDate.toLocaleDateString()
         )[0];
+        console.log(reservationForSelectedDate);
         if (reservationForSelectedDate) {
           let deskId = desk.deskId;
           let floor = desk.floor;
@@ -111,6 +112,7 @@ const DashboardPage = (props) => {
     });
     let secondFloorDesksCount = desks.length - firstFloorDesksCount;
     setCount(firstFloorDesksCount, secondFloorDesksCount);
+    console.log(occupiedDesksData);
     getDeskStyles(occupiedDesksData);
   };
 
@@ -301,7 +303,6 @@ const DashboardPage = (props) => {
                 marginTop: "20px",
 
                 height: "60vh",
-                display: "flex",
                 alignItems: "center",
               }}
             >
