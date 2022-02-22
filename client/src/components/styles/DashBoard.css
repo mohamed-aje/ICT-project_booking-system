@@ -88,9 +88,7 @@
 .cls-4 {
   fill: #56ff4f;
 }
-.cls-5 {
-  fill: #00a4ff;
-}
+
 .cls-23,
 .cls-7 {
   font-size: 12px;
@@ -159,6 +157,10 @@
 
 .circle {
   fill: #00a4ff;
+}
+
+.owncircle {
+  fill: #02305a;
 }
 .numberings,
 .roomlabelsmaller {

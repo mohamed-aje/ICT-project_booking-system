@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./styles/DashBoard.css";
-import desk_map1 from "../utils/FloorFiveData";
+import ReactTooltip from "react-tooltip";
 
-const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
+const FloorFiveLayout = ({ setSelectedDeskID, setOccupied, ...props }) => {
   //const [style, setStyles] = useState([]);
+  const floorFiveData = props.floorFiveData;
   const selectedDesk = props.selectedDesk;
   const [currentDesk, setDesk] = useState();
   const [isLoading, setLoading] = useState(true);
@@ -12,13 +13,14 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
 
   useEffect(() => {
     setDesk(selectedDesk);
-    console.log(props.floorData);
-    !desk_map1 ? setLoading(true) : setLoading(false);
-  }, [selectedDesk]);
+    !floorFiveData ? setLoading(true) : setLoading(false);
+    ReactTooltip.rebuild();
+  });
 
   const selectDesk = (e) => {
-    setDesk(e.target.attributes.id.value);
-    setSelectedDeskID(e.target.attributes.id.value);
+    let id = e.target.attributes.id.value;
+    setDesk(id);
+    setSelectedDeskID(id);
   };
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1173 435" {...props}>
@@ -185,30 +187,34 @@ const FloorFiveLayout = ({ setSelectedDeskID, ...props }) => {
           d="M125.16 286.73v1.69l-2.43.34h-.35v-2.03h2.78z"
         />
         {!isLoading
-          ? desk_map1.map((item) => {
+          ? floorFiveData.map((item) => {
               return (
-                <g>
+                <g key={item["id"]}>
                   <path
-                    key={item["id"]}
                     onClick={selectDesk}
                     id={item["id"]}
                     className={
-                      currentDesk == item["id"] &&
-                      !occupiedDesks.includes(item["id"])
-                        ? "selected"
-                        : item.style
+                      currentDesk == item["id"] ? "selected" : item.style
                     }
                     d={item["d"]}
                     transform={"transform" in item ? item["transform"] : null}
-                  >
-                    <title className="tooltip">{item["id"]}</title>
-                  </path>
-                  {/* <circle
-                    className="cls-5"
-                    cx={item["cx"]}
-                    cy={item["cy"]}
-                    r={5.25}
-                  /> */}
+                  ></path>
+
+                  {item["user"] != null ? (
+                    <circle
+                      data-for="user"
+                      data-tip={item["user"]}
+                      data-iscapture="true"
+                      className={
+                        item["user"] == "My reservation"
+                          ? "owncircle"
+                          : "circle"
+                      }
+                      cx={item["cx"]}
+                      cy={item["cy"]}
+                      r={5.25}
+                    ></circle>
+                  ) : null}
                 </g>
               );
             })
