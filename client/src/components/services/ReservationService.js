@@ -3,7 +3,6 @@ const RESERVATIONS_REST_API_URL = "http://localhost:8080";
 
 class ReservationService {
   getAllDesks = async () => {
-    //console.log("get desks");
     let response;
     try {
       response = await axios.get(RESERVATIONS_REST_API_URL + "/desk/getall");
@@ -23,15 +22,26 @@ class ReservationService {
     } catch (error) {
       console.log(error);
     }
+    console.log(response.data);
+    return response.data;
+  };
+
+  getReservationInfoAll = async () => {
+    let response;
+    try {
+      response = await axios.get(
+        RESERVATIONS_REST_API_URL + "/reservations/getAllForAll/"
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(response.data);
     return response.data;
   };
 
   saveReservation = async (id, selectedDate, email) => {
-    // const firstName = name[0];
-    // const lastName = name[1];
     const date = selectedDate.toLocaleDateString();
     console.log(email);
-    // const reservationData = { date, firstName, lastName };
     const reservationData = { date, email };
     let response;
     try {
@@ -42,7 +52,6 @@ class ReservationService {
     } catch (error) {
       console.log(error);
     }
-    //console.log("get desks");
     return response.data;
   };
 

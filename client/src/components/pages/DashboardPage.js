@@ -26,6 +26,7 @@ const DashboardPage = (props) => {
   const [selectedFloor, setFloor] = useState(1);
   const [desks, setDesks] = useState(null);
   const [deskCountByFloors, setCount] = useState(0);
+  const [reservationsData, setReservationsData] = useState();
 
   const [floorFiveData, setFFiveData] = useState(desk_map1);
   const [floorSixData, setFSixData] = useState(desk_map2);
@@ -43,8 +44,6 @@ const DashboardPage = (props) => {
 
   const isWeekday = (date) => {
     const day = date.getDay();
-    console.log("day: " + day);
-    console.log(day !== 0 && day !== 6);
     return day !== 0 && day !== 6;
   };
   const months = (date, numOfmonths) => {
@@ -58,7 +57,6 @@ const DashboardPage = (props) => {
     } else {
       console.log("got desks");
       getReservedDesks();
-
       setLoading(false);
     }
   }, [selectedDate, selectedFloor, desks, selectedDesk]);
@@ -70,7 +68,6 @@ const DashboardPage = (props) => {
       account
     );
     returnDesk();
-    console.log("save reservation");
     setSelection(0);
   };
 
@@ -87,7 +84,7 @@ const DashboardPage = (props) => {
         let reservationForSelectedDate = desk.reservations.filter(
           (reservation) => reservation.date == selectedDate.toLocaleDateString()
         )[0];
-        console.log(reservationForSelectedDate);
+        //console.log(reservationForSelectedDate);
         if (reservationForSelectedDate) {
           let deskId = desk.deskId;
           let floor = desk.floor;
@@ -107,12 +104,11 @@ const DashboardPage = (props) => {
         } else if (selectedDesk == desk.deskId) {
           setOccupied(false);
         }
-        console.log(oneDeskIsBookedForDate);
       }
     });
     let secondFloorDesksCount = desks.length - firstFloorDesksCount;
     setCount(firstFloorDesksCount, secondFloorDesksCount);
-    console.log(occupiedDesksData);
+    setReservationsData(occupiedDesksData);
     getDeskStyles(occupiedDesksData);
   };
 
@@ -145,7 +141,6 @@ const DashboardPage = (props) => {
       }
       setData((floorData) => [...floorData, obj]);
     });
-    console.log(floorData);
   };
 
   return (
@@ -321,7 +316,10 @@ const DashboardPage = (props) => {
                   />
                 )
               ) : (
-                <ReservationsSub selectedDate={selectedDate} />
+                <ReservationsSub
+                  selectedDate={selectedDate}
+                  reservationsForDate={reservationsData}
+                />
               )}
             </div>
           </div>

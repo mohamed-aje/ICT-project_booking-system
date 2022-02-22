@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer
       className="page-footer font-small blue pt-4"
-      style={{ background: "#02305a", position: "relative" }}
+      style={{ background: "#02305a", position: "relative", marginTop: "60px" }}
     >
       <div className="container-fluid text-center text-md-left">
         <div className="row" style={{ marginBottom: "0 " }}>

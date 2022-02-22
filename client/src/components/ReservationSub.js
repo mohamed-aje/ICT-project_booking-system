@@ -2,62 +2,83 @@ import React, { useState, useEffect } from "react";
 import "./styles/ReservationSub.css";
 import axios from "axios";
 import Footer from "./pages/Footer";
+import BarChart from "../charts/BarChart";
+import Doughnut from "../charts/Doughnut";
+import ReservationService from "./services/ReservationService";
 
 const ReservationsSub = (props) => {
   const selectedDate = props.selectedDate;
-  const numOfAllDesks = props.numOfAllDesks;
-  const occupiedDesksCount = props.occupiedDesksCount;
-  const [reservationById, setReservationById] = useState(null);
-  const url = "http://localhost:8080/reservations/getAllForAll";
+  const reservationsForDate = props.reservationsForDate;
+  const [allReservations, setAllReservations] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
-  //here useeffect that retrieves the reservations using URL (http://localhost:8080/reservations/getAllForAll)
+  const getAllReservations = async () => {
+    setAllReservations(await ReservationService.getReservationInfoAll());
+  };
+
   useEffect(() => {
-    axios.get(url).then((response) => {
-      setReservationById(response.data);
-    });
-  }, [url]);
-  if (reservationById) {
-    return (
-      <div className="container">
+    console.log("hello");
+    if (!allReservations) {
+      console.log("didn't get reservations yet");
+      setLoading(true);
+      getAllReservations();
+    } else {
+      console.log("here are the reservations : " + allReservations);
+      setLoading(false);
+    }
+    console.log(isLoading);
+  });
+
+  return (
+    <div className="container">
+      {!isLoading ? (
         <div className="row">
           <div
             className="col-6"
-            style={{ background: "red", display: "flex", height: "" }}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <p>charts comes here</p>
+            <div style={{ width: "200px" }}>
+              <Doughnut reserv={reservationsForDate} />
+            </div>
+            <div style={{ marginTop: "30px", maxWidth: 520 }}>
+              <BarChart reserv={allReservations} />
+            </div>
           </div>
-          <div className="col-6" style={{ height: "200px", display: "flex" }}>
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Employee</th>
-                  <th>Desk</th>
-                  <th>Floor</th>
-                </tr>
-              </thead>
-              <tbody>
-                {console.log(reservationById)}
-                {reservationById.map((item) => (
+          <div
+            className="col-6"
+            style={{ height: "fit-content", display: "flex" }}
+          >
+            {reservationsForDate.length > 0 ? (
+              <table className="table table-hover">
+                <thead>
                   <tr>
-                    <td>
-                      <b>{item.reservations.date}</b>
-                    </td>
-                    <td>
-                      {item.reservations.user.firstName}{" "}
-                      {item.reservations.user.lastName}
-                    </td>
-                    <td>{item.desk_id}</td>
-                    <td>{item.floor}</td>
+                    <th>Employee</th>
+                    <th>Desk</th>
+                    <th>Floor</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {reservationsForDate.map((item) => (
+                    <tr>
+                      <td>{item.user == null ? "Unknown user" : item.user}</td>
+                      <td>{item.deskId}</td>
+                      <td>{item.floor}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No reservations for selected date</p>
+            )}
           </div>
         </div>
-      </div>
-    );
-  }
-  return <div></div>;
+      ) : null}
+    </div>
+  );
 };
+
 export default ReservationsSub;
