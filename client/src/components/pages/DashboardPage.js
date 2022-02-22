@@ -192,7 +192,7 @@ const DashboardPage = (props) => {
                   ]}
                 />
               </div>
-              {oneDeskIsBookedForDate ? (
+              {oneDeskIsBookedForDate && subPage == "dashboard" ? (
                 <div
                   style={{ textAlign: "center" }}
                   class="alert alert-warning"
