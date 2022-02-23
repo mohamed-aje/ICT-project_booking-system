@@ -12,8 +12,8 @@ const App = () => {
   return (
     <>
       <Router>
-        <Navbar sendUser={setUser} />
-        <div>
+        <div style={{ height: "100vh" }}>
+          <Navbar sendUser={setUser} />
           <Routes>
             {user ? (
               <>

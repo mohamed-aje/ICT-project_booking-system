@@ -37,7 +37,7 @@ public class DeskReservation {
     LocalDateTime updateTimeStamp;
 
     @NotNull
-    @JsonFormat(pattern="dd/mm/yyyy") 
+    @JsonFormat(pattern="dd/mm/yyyy")
     @Column(name = "date")
     Date date;
 

@@ -2,7 +2,9 @@ package workingdirectory.mvc.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import workingdirectory.mvc.models.Desk;
@@ -11,19 +13,45 @@ import workingdirectory.mvc.models.User;
 import workingdirectory.mvc.repositories.DeskRepository;
 import workingdirectory.mvc.repositories.DeskReservationRepository;
 import workingdirectory.mvc.repositories.UserRepository;
-
+import workingdirectory.mvc.utils.Utils;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin("*")
 @RestController
 @RequestMapping("reservations")
 public class ReservationController {
+    public static final String FILE_NAME = "test.pdf";
     @Autowired
     DeskReservationRepository deskReservationService;
     @Autowired
     DeskRepository deskService;
     @Autowired
     UserRepository userService;
+
+    @GetMapping("/getPdf")
+    public ResponseEntity<byte[]> getPDF() throws FileNotFoundException, DocumentException {
+
+       /* for (DeskReservation d : list) {
+            Paragraph paragraph = new Paragraph(d.getCreateTimeStamp()+" "+d.getEmail()+" "+d.getDate()+" "+d.getReservationId(), font);
+            document.add(paragraph);
+        }*/
+
+        List<String> list = deskReservationService.findAll().stream().map(x->x.getReservationId()+" "+x.getCreateTimeStamp()+" "
+                +x.getDate()).collect(Collectors.toList());
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        Utils.writePdf(FILE_NAME,list);
+        byte[]contents=Utils.getFileAsByteArray(FILE_NAME);
+        headers.setContentDispositionFormData(FILE_NAME, FILE_NAME);
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+        ResponseEntity<byte[]> response = new ResponseEntity<>(contents, headers, HttpStatus.OK);
+        return response;
+    }
+
 
     //create reservation
     @PostMapping("{id}")
