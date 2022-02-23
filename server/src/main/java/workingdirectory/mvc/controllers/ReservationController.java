@@ -66,7 +66,7 @@ public class ReservationController {
                 .orElseThrow();
         user.setAccount(reservation.getEmail());
         reservation.setUser(user);
-
+        System.out.println(reservation.getDate());
         return deskReservationService.save(reservation);
     }
 

@@ -82,9 +82,10 @@ const DashboardPage = (props) => {
       }
       if (desk.reservations.length !== 0) {
         let reservationForSelectedDate = desk.reservations.filter(
-          (reservation) => reservation.date == selectedDate.toLocaleDateString()
+          (reservation) =>
+            reservation.date ==
+            selectedDate.toLocaleDateString().split("/").reverse().join("-")
         )[0];
-        //console.log(reservationForSelectedDate);
         if (reservationForSelectedDate) {
           let deskId = desk.deskId;
           let floor = desk.floor;

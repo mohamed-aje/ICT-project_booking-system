@@ -12,21 +12,24 @@ import { Bar } from "react-chartjs-2";
 import moment from "moment";
 
 const BarChart = (props) => {
+  const selectedDate = props.selectedDate;
   const [daysArray, setDaysArray] = useState([]);
+
   useEffect(() => {
+    let week = moment(selectedDate).week();
+    console.log(week);
+
     let mon = 0;
     let tue = 0;
     let wed = 0;
     let thu = 0;
     let fri = 0;
+
     props.reserv
-      .filter((item) =>
-        moment(item.reservations.createTimeStamp).isSame(moment(), "week")
-      )
-      .map((res) => {
-        let day = new Date(res.reservations.createTimeStamp);
-        console.log(day);
-        day = day.toString().split(" ")[0];
+      .filter((item) => moment(item.reservations.date).week() == week)
+      .map((item) => {
+        let date = new Date(item.reservations.date);
+        let day = date.toString().split(" ")[0];
         switch (day) {
           case "Mon":
             mon++;
@@ -55,36 +58,55 @@ const BarChart = (props) => {
     LinearScale,
     BarElement,
     Title,
-    Tooltip,
-    Legend
+    Tooltip
+    //Legend
   );
-
+  const labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
   const options = {
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+      },
+      y: {
+        display: false,
+      },
+    },
     responsive: true,
     plugins: {
       legend: {
         position: "top",
       },
+      labels: {
+        // This more specific font property overrides the global property
+        font: {
+          weight: "bold",
+        },
+      },
       title: {
         display: true,
-        text: "Reservations made last week",
+        text: "Reservations made on the week of selected date",
       },
     },
   };
-
-  const labels = ["Mon", "Tue", "Wed", "Thu", "Fri"];
 
   const data = {
     labels,
     datasets: [
       {
-        label: "Dataset 1",
+        minBarLength: 5,
+        label: "reservations per day",
         data: daysArray,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: labels.map((day) =>
+          day != selectedDate.toString().split(" ")[0]
+            ? "rgba(255, 99, 132, 0.2)"
+            : "#ff5f8f"
+        ),
       },
     ],
   };
-
+  console.log(data);
   return <Bar options={options} data={data} />;
 };
 

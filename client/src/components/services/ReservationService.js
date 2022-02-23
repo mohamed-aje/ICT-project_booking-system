@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment";
 const RESERVATIONS_REST_API_URL = "http://localhost:8080";
 
 class ReservationService {
@@ -40,8 +41,9 @@ class ReservationService {
   };
 
   saveReservation = async (id, selectedDate, email) => {
-    const date = selectedDate.toLocaleDateString();
-    console.log(email);
+    let date = selectedDate.toLocaleDateString();
+    date = date.split("/").reverse().join("-");
+
     const reservationData = { date, email };
     let response;
     try {

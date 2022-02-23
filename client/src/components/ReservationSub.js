@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./styles/ReservationSub.css";
 import axios from "axios";
 import Footer from "./pages/Footer";
-import BarChart from "../charts/BarChart";
-import Doughnut from "../charts/Doughnut";
+import BarChart from "./charts/BarChart";
+import Doughnut from "./charts/Doughnut";
 import ReservationService from "./services/ReservationService";
 
 const ReservationsSub = (props) => {
@@ -45,7 +45,7 @@ const ReservationsSub = (props) => {
               <Doughnut reserv={reservationsForDate} />
             </div>
             <div style={{ marginTop: "30px", maxWidth: 520 }}>
-              <BarChart reserv={allReservations} />
+              <BarChart reserv={allReservations} selectedDate={selectedDate} />
             </div>
           </div>
           <div

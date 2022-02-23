@@ -142,7 +142,7 @@ const Settings = (props) => {
               }}
             >
               <h4 style={{ marginBottom: "20px" }}>My reservations</h4>
-              <div style={{ overflow: "auto", maxHeight: "500px" }}>
+              <div style={{ overflow: "auto", maxHeight: "400px" }}>
                 {reservationsByUser.length !== 0 ? (
                   <table className="table table-hover">
                     <thead>
@@ -151,6 +151,7 @@ const Settings = (props) => {
                           style={{
                             position: "sticky",
                             top: "0",
+                            backgroundColor: "#02305a",
                           }}
                         >
                           Desk ID
@@ -159,6 +160,7 @@ const Settings = (props) => {
                           style={{
                             position: "sticky",
                             top: "0",
+                            backgroundColor: "#02305a",
                           }}
                         >
                           Date
@@ -167,6 +169,7 @@ const Settings = (props) => {
                           style={{
                             position: "sticky",
                             top: "0",
+                            backgroundColor: "#02305a",
                           }}
                         >
                           Last modified
@@ -175,6 +178,7 @@ const Settings = (props) => {
                           style={{
                             position: "sticky",
                             top: "0",
+                            backgroundColor: "#02305a",
                           }}
                         ></th>
                       </tr>
