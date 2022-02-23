@@ -1,6 +1,11 @@
+g > text {
+  cursor: pointer;
+  pointer-events: none;
+}
 .floorBtn:hover {
   background-color: #0d6efd !important;
 }
+
 .selectedbox {
   display: flex;
   flex-direction: row;
