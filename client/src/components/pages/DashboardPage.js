@@ -225,11 +225,11 @@ const DashboardPage = (props) => {
                             <p>{selectedDesk}</p>
                           </div>
                           {isOccupied ? (
-                            <p style={{ color: "#ff5f8f" }}>
+                            <p style={{ color: "#f0869f" }}>
                               <b>Occupied</b>
                             </p>
                           ) : (
-                            <p style={{ color: "#56ff4f" }}>
+                            <p style={{ color: "#9df05d" }}>
                               <b>Available</b>
                             </p>
                           )}
@@ -284,7 +284,7 @@ const DashboardPage = (props) => {
                 <ReactTooltip
                   id="user"
                   place="right"
-                  type="info"
+                  type="dark"
                   effect="solid"
                   multiline={false}
                 />

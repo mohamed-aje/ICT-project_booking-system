@@ -58,7 +58,7 @@ const FloorButton = ({ floorSend, ...props }) => {
             style={{
               height: "20px",
               width: "20px",
-              backgroundColor: "#ff5f8f",
+              backgroundColor: "#f0869f",
               marginRight: "5px",
             }}
           ></div>
@@ -69,7 +69,7 @@ const FloorButton = ({ floorSend, ...props }) => {
             style={{
               height: "20px",
               width: "20px",
-              backgroundColor: "#56ff4f",
+              backgroundColor: "#9df05d",
               marginRight: "5px",
             }}
           ></div>

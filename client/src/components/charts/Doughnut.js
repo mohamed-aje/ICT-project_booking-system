@@ -11,7 +11,7 @@ const Doughnut = (props) => {
         label: "Booking",
         data: [props.reserv.length, 87 - props.reserv.length],
         //red, green
-        backgroundColor: ["#ff5f8f", "#56ff4f"],
+        backgroundColor: ["#f0869f", "#9df05d"],
         borderColor: ["white", "white"],
         borderWidth: 2,
       },

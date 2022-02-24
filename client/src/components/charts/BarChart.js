@@ -101,7 +101,7 @@ const BarChart = (props) => {
         backgroundColor: labels.map((day) =>
           day != selectedDate.toString().split(" ")[0]
             ? "rgba(255, 99, 132, 0.2)"
-            : "#ff5f8f"
+            : "#f0869f"
         ),
       },
     ],

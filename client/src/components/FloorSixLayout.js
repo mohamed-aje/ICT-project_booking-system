@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import desk_map2 from "../utils/FloorSixData";
 import "./styles/DashBoard.css";
+import ReactTooltip from "react-tooltip";
 
 const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
   //const [style, setStyles] = useState([]);
@@ -14,8 +14,9 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
 
   useEffect(() => {
     setDesk(selectedDesk);
-    !desk_map2 ? setLoading(true) : setLoading(false);
-  }, [selectedDesk]);
+    !floorSixData ? setLoading(true) : setLoading(false);
+    ReactTooltip.rebuild();
+  });
 
   const selectDesk = (e) => {
     setDesk(e.target.attributes.id.value);
@@ -49,12 +50,21 @@ const FloorSixLayout = ({ setSelectedDeskID, ...props }) => {
                   >
                     <title className="tooltip">{item["id"]}</title>
                   </path>
-                  <circle
-                    className="circle"
-                    cx={item["cx"]}
-                    cy={item["cy"]}
-                    r={5.25}
-                  />
+                  {item["user"] != null ? (
+                    <circle
+                      data-for="user"
+                      data-tip={item["user"]}
+                      data-iscapture="true"
+                      className={
+                        item["user"] == "My reservation"
+                          ? "owncircle"
+                          : "circle"
+                      }
+                      cx={item["cx"]}
+                      cy={item["cy"]}
+                      r={5.25}
+                    ></circle>
+                  ) : null}
                   <text
                     className="numberings"
                     style={{
