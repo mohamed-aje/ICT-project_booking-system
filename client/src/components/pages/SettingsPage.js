@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import UserService from "../services/UserService";
 import ReservationService from "../services/ReservationService";
-import { Link } from "react-router-dom";
 import "../styles/ReservationSub.css";
+import { useNavigate } from "react-router-dom";
+
 const Settings = (props) => {
   const user = props.user;
   const [userData, setUserData] = useState(null);
@@ -12,6 +12,8 @@ const Settings = (props) => {
   const [isSaveBtnVisible, setBtnVisible] = useState(false);
   const [reservationsByUser, setReservationsByUser] = useState(null);
   const [successMessage, setSuccesMessage] = useState();
+  const [isTextVisible, setTextVisible] = useState();
+  const navigate = useNavigate();
 
   const returnUser = async () => {
     setUserData(await UserService.getUser(user.email));
@@ -82,6 +84,38 @@ const Settings = (props) => {
             style={{ marginTop: "50px", justifySelf: "center" }}
           >
             <div className="col-6">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <div
+                  className={"floorBtn"}
+                  style={{
+                    marginBottom: "25px",
+                    marginLeft: "-60px",
+                    marginRight: "10px",
+                  }}
+                  onClick={() => navigate("/dashboard/overview")}
+                  onMouseOver={() => setTextVisible(true)}
+                  onMouseOut={() => setTextVisible(false)}
+                >
+                  <p
+                    style={{
+                      textalign: "center",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    {"<"}
+                  </p>
+                </div>
+                {isTextVisible ? (
+                  <p
+                    style={{
+                      color: "#424242",
+                      fontWeight: "bolder",
+                    }}
+                  >
+                    Back to Dashboard
+                  </p>
+                ) : null}
+              </div>
               <div
                 style={{
                   backgroundColor: "#f0f0f0",
