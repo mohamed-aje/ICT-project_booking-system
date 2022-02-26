@@ -270,7 +270,10 @@ const DashboardPage = (props) => {
                     >
                       <button
                         disabled={
-                          isOccupied || !selectedDesk || oneDeskIsBookedForDate
+                          isOccupied ||
+                          !selectedDesk ||
+                          oneDeskIsBookedForDate ||
+                          !isWeekday(selectedDate)
                         }
                         type="button"
                         className="btn btn-primary"

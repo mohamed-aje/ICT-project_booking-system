@@ -48,10 +48,7 @@ const ReservationsSub = (props) => {
               <BarChart reserv={allReservations} selectedDate={selectedDate} />
             </div>
           </div>
-          <div
-            className="col-6"
-            style={{ height: "fit-content", display: "flex" }}
-          >
+          <div className="col-6">
             {reservationsForDate.length > 0 ? (
               <table className="table table-hover">
                 <thead>
@@ -72,7 +69,17 @@ const ReservationsSub = (props) => {
                 </tbody>
               </table>
             ) : (
-              <p>No reservations for selected date</p>
+              <div style={{ display: "flex", height: "100%" }}>
+                <p
+                  style={{
+                    width: "100%",
+                    alignSelf: "center",
+                    textAlign: "center",
+                  }}
+                >
+                  No reservations for selected date
+                </p>
+              </div>
             )}
           </div>
         </div>

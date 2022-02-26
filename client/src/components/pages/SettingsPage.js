@@ -9,7 +9,6 @@ const Settings = (props) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [anonymReservation, setReservation] = useState(false);
-  const [selectedDesk, setSelection] = useState();
   const [isSaveBtnVisible, setBtnVisible] = useState(false);
   const [reservationsByUser, setReservationsByUser] = useState(null);
   const [successMessage, setSuccesMessage] = useState();
@@ -24,6 +23,7 @@ const Settings = (props) => {
     );
   };
   useEffect(() => {
+    console.log(new Date());
     if (userData) {
       setLoading(false);
       setReservation(userData.anonymReservations);
@@ -38,8 +38,6 @@ const Settings = (props) => {
     if (!reservationsByUser) {
       returnReservationInfo();
       setLoading(true);
-    } else {
-      console.log(reservationsByUser);
     }
   }, [userData, reservationsByUser]);
 
@@ -78,7 +76,7 @@ const Settings = (props) => {
   return (
     <>
       {!isLoading ? (
-        <div className="container">
+        <div className="container" style={{ height: "90%" }}>
           <div
             className="row"
             style={{ marginTop: "50px", justifySelf: "center" }}
@@ -141,8 +139,8 @@ const Settings = (props) => {
                 marginTop: "20px",
               }}
             >
-              <h4 style={{ marginBottom: "20px" }}>My reservations</h4>
-              <div style={{ overflow: "auto", maxHeight: "400px" }}>
+              <h4 style={{ marginBottom: "20px" }}>My upcoming reservations</h4>
+              <div style={{ overflow: "auto", maxHeight: "80%" }}>
                 {reservationsByUser.length !== 0 ? (
                   <table className="table table-hover">
                     <thead>
@@ -184,15 +182,24 @@ const Settings = (props) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {reservationsByUser.map((item) => (
-                        <tr key={item.desk_id}>
-                          <td>
-                            <b>{item.desk_id}</b>
-                          </td>
-                          <td>{item.reservations.date}</td>
-                          <td>{item.reservations.updateTimeStamp}</td>
-                          <td>
-                            {/*                           <Link
+                      {reservationsByUser
+                        .filter(
+                          (item) =>
+                            new Date()
+                              .toLocaleDateString()
+                              .split("/")
+                              .reverse()
+                              .join("-") <= item.reservations.date
+                        )
+                        .map((item) => (
+                          <tr key={item.desk_id}>
+                            <td>
+                              <b>{item.desk_id}</b>
+                            </td>
+                            <td>{item.reservations.date}</td>
+                            <td>{item.reservations.updateTimeStamp}</td>
+                            <td>
+                              {/*                           <Link
                             className="btn btn-info"
                             style={{
                               backgroundColor: "#00a4ff",
@@ -202,22 +209,22 @@ const Settings = (props) => {
                           >
                             Update
                           </Link> */}
-                            <button
-                              className="btn btn-danger"
-                              style={{
-                                marginLeft: "10px",
-                              }}
-                              onClick={() =>
-                                deleteReservation(
-                                  item.reservations.reservationId
-                                )
-                              }
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
+                              <button
+                                className="btn btn-danger"
+                                style={{
+                                  marginLeft: "10px",
+                                }}
+                                onClick={() =>
+                                  deleteReservation(
+                                    item.reservations.reservationId
+                                  )
+                                }
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
                     </tbody>
                   </table>
                 ) : (
