@@ -67,11 +67,6 @@ const Navbar = ({ sendUser }) => {
                         Profile
                       </a>
                     </li>
-                    <li>
-                      <a className="dropdown-item" href="#">
-                        Logout
-                      </a>
-                    </li>
                   </ul>
                 </li>
               </>

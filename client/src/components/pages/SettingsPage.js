@@ -3,6 +3,8 @@ import UserService from "../services/UserService";
 import ReservationService from "../services/ReservationService";
 import "../styles/ReservationSub.css";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Settings = (props) => {
   const user = props.user;
@@ -96,26 +98,10 @@ const Settings = (props) => {
                   onMouseOver={() => setTextVisible(true)}
                   onMouseOut={() => setTextVisible(false)}
                 >
-                  <p
-                    style={{
-                      textalign: "center",
-                      marginBottom: "0px",
-                    }}
-                  >
-                    {"<"}
-                  </p>
+                  <FontAwesomeIcon icon={faChevronLeft} />
                 </div>
-                {isTextVisible ? (
-                  <p
-                    style={{
-                      color: "#424242",
-                      fontWeight: "bolder",
-                    }}
-                  >
-                    Back to Dashboard
-                  </p>
-                ) : null}
               </div>
+              <h2 style={{ marginBottom: "20px" }}>Profile</h2>
               <div
                 style={{
                   backgroundColor: "#f0f0f0",
@@ -124,7 +110,6 @@ const Settings = (props) => {
                   padding: "25px 25px 25px 20px",
                 }}
               >
-                <h2 style={{ marginBottom: "20px" }}>Profile</h2>
                 <h4>
                   {userData.firstName} {userData.lastName}
                 </h4>
@@ -174,7 +159,7 @@ const Settings = (props) => {
               }}
             >
               <h4 style={{ marginBottom: "20px" }}>My upcoming reservations</h4>
-              <div style={{ overflow: "auto", maxHeight: "80%" }}>
+              <div style={{ overflow: "auto", maxHeight: "60%" }}>
                 {reservationsByUser.length !== 0 ? (
                   <table className="table table-hover">
                     <thead>
